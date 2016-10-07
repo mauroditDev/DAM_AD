@@ -37,7 +37,6 @@ public class ImpresionCarpeta {
 	 */
 	public static void main(String[] args) {
 		//String para almacenar la ruta del archivo
-		int k = 0;
 		String ruta;
 		String aux;
 		char crit;
@@ -45,10 +44,10 @@ public class ImpresionCarpeta {
 		boolean ocultos;
 		//compruba si se dieron argumentos en la ejecución
 		if(args.length > 0){
-			ruta = args[k++]; //si se dieron se trata el primero como la ruta
-			crit = args[k++].charAt(0);
-			tamano = Long.parseLong(args[k++]);
-			ocultos = Boolean.parseBoolean(args[k++]);
+			ruta = args[0]; //si se dieron se trata el primero como la ruta
+			crit = args[1].charAt(0);
+			tamano = Long.parseLong(args[2]);
+			ocultos = Boolean.parseBoolean(args[2]);
 		}
 		else{
 			/*
