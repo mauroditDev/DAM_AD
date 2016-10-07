@@ -56,6 +56,10 @@ public class ImpresionCarpeta {
 		}
 		else{
 			archivo = ventanaSeleccion();
+			/*
+			 * si no se dieron argumentos se requiere el ingreso de una ruta
+			 * en forma de String
+			 */
 			Scanner sc = new Scanner(System.in);
 			//System.out.println("introduzca ruta de la carpeta:");
 			//ruta = sc.next();

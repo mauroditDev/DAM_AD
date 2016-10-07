@@ -45,17 +45,18 @@ public class ImpresionCarpeta {
 		char crit;
 		Long tamano;
 		boolean ocultos;
-		File archivo;
 		//compruba si se dieron argumentos en la ejecución
 		if(args.length > 0){
 			ruta = args[k++]; //si se dieron se trata el primero como la ruta
-			archivo = new File(ruta);
 			crit = args[k++].charAt(0);
 			tamano = Long.parseLong(args[k++]);
 			ocultos = Boolean.parseBoolean(args[k++]);
 		}
 		else{
-			archivo = ventanaSeleccion();
+			/*
+			 * si no se dieron argumentos se requiere el ingreso de una ruta
+			 * en forma de String
+			 */
 			Scanner sc = new Scanner(System.in);
 			//System.out.println("introduzca ruta de la carpeta:");
 			//ruta = sc.next();
@@ -78,6 +79,8 @@ public class ImpresionCarpeta {
 			sc.close();
 		}
 		
+		
+		File archivo = ventanaSeleccion();
 		ArrayList<File> resultado = buscarArchivoPorTamano(archivo,crit,tamano,ocultos);
 		if(resultado == null){
 			System.out.println("la ruta no existe o apunta a un archivo");

@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JFileChooser;
-
 public class ImpresionCarpeta {
 
 	/*
@@ -45,20 +43,21 @@ public class ImpresionCarpeta {
 		char crit;
 		Long tamano;
 		boolean ocultos;
-		File archivo;
 		//compruba si se dieron argumentos en la ejecución
 		if(args.length > 0){
 			ruta = args[k++]; //si se dieron se trata el primero como la ruta
-			archivo = new File(ruta);
 			crit = args[k++].charAt(0);
 			tamano = Long.parseLong(args[k++]);
 			ocultos = Boolean.parseBoolean(args[k++]);
 		}
 		else{
-			archivo = ventanaSeleccion();
+			/*
+			 * si no se dieron argumentos se requiere el ingreso de una ruta
+			 * en forma de String
+			 */
 			Scanner sc = new Scanner(System.in);
-			//System.out.println("introduzca ruta de la carpeta:");
-			//ruta = sc.next();
+			System.out.println("introduzca ruta de la carpeta:");
+			ruta = sc.next();
 			System.out.println("criterio de busqueda '+', '-'");
 			aux = sc.next();
 			while(!aux.equals("+")&&!aux.equals("-")){
@@ -78,6 +77,8 @@ public class ImpresionCarpeta {
 			sc.close();
 		}
 		
+		
+		File archivo = new File(ruta);
 		ArrayList<File> resultado = buscarArchivoPorTamano(archivo,crit,tamano,ocultos);
 		if(resultado == null){
 			System.out.println("la ruta no existe o apunta a un archivo");
@@ -85,7 +86,7 @@ public class ImpresionCarpeta {
 		else{
 			int i = 0;
 			for(i = 0; i < resultado.size(); i++){
-				System.out.println(mostrarInfo(resultado.get(i)).replaceAll(archivo.getAbsolutePath(), ""));
+				System.out.println(mostrarInfo(resultado.get(i)).replaceAll(ruta, ""));
 			}
 			if(i==0)
 				System.out.println("Ningún resultado");
@@ -197,22 +198,6 @@ public class ImpresionCarpeta {
 		}
 		
 		return res;
-	}
-	
-	public static File ventanaSeleccion(File ruta){
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(ruta);
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int seleccion = fileChooser.showOpenDialog(null);
-		if(seleccion == JFileChooser.APPROVE_OPTION){
-			return fileChooser.getSelectedFile();
-		}
-		else
-			return null;
-	}
-	
-	public static File ventanaSeleccion(){
-		return ventanaSeleccion(new File("/"));
 	}
 
 }
