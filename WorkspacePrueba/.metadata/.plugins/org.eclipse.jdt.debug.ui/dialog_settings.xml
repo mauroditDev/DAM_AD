@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="conditionHistory">
+		<item value="2" key="conditionHistoryEntryCount"/>
+		<item value="i&lt;2" key="conditionHistoryEntry_0"/>
+		<item value="i &lt; 5 || i == 10" key="conditionHistoryEntry_1"/>
+		<item value="&lt;3" key="conditionHistoryEntry_2"/>
+		<item value="12" key="conditionHistoryEntry_3"/>
+		<item value="i&lt;5;" key="conditionHistoryEntry_4"/>
+	</section>
+</section>

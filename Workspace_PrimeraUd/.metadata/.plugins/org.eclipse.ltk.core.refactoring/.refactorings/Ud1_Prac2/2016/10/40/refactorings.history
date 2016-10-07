@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;impresionCarpetas.ImpresionCarpeta.listar(...)&apos; to &apos;mostrarDirectorio&apos;&#x0A;- Original project: &apos;Ud1_Prac2&apos;&#x0A;- Original element: &apos;impresionCarpetas.ImpresionCarpeta.listar(...)&apos;&#x0A;- Renamed element: &apos;impresionCarpetas.ImpresionCarpeta.mostrarDirectorio(...)&apos;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;listar&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;impresionCarpetas{ImpresionCarpeta.java[ImpresionCarpeta~listar~QFile;~I" name="mostrarDirectorio" references="true" stamp="1475754149380" version="1.0"/>
+</session>

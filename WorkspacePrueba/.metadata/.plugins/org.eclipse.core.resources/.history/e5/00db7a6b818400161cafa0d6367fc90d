@@ -1,0 +1,31 @@
+package array;
+
+import java.util.Arrays;
+
+public class Array {
+
+	public static void main(String[] args) {
+
+		int[] a = partir(7851552);
+		for(int i = 0; i< a.length; i++){
+			System.out.println(a[i]);
+		}
+		
+
+	}
+	
+	private static int[] partir(int n){
+		int[] res = new int[0];
+		while(n>0){
+			
+			res = Arrays.copyOf(res, res.length+1);
+			res[res.length] = n%10;
+			n = n/10;
+			
+		}
+		
+		return res;
+		
+	}
+
+}

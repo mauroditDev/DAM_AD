@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;miArray.miArray&apos; to &apos;MiArray&apos;&#x0A;- Original project: &apos;MiArray&apos;&#x0A;- Original element: &apos;miArray.miArray&apos;&#x0A;- Renamed element: &apos;miArray.MiArray&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;miArray&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;miArray{miArray.java[miArray" matchStrategy="1" name="MiArray" qualified="false" references="true" similarDeclarations="false" stamp="1475581470467" textual="false" version="1.0"/>
+</session>

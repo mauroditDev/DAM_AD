@@ -1,0 +1,36 @@
+package miArray;
+
+public class MiArray {
+	private int valores[];
+	
+	public MiArray(int size){
+		this.valores = new int[size];
+		for(int i=0; i<size;i++){
+			valores[i]=((int)Math.random()*100)+1;
+		}
+	}
+	
+	public int minArray(){
+		int a=101;
+		
+		for(int i =0;i<valores.length;i++){
+			if(valores[i]<a)
+				a = valores[i];
+		}
+		
+		return a;
+	}
+	
+	public int maxArray(){
+		int a=0;
+		
+		for(int i =0;i<valores.length;i++){
+			if(valores[i]>a)
+				a = valores[i];
+		}
+		
+		return a;
+	}
+	
+	
+}

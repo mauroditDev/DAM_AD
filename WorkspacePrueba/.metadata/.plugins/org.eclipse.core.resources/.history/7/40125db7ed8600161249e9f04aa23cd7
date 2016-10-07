@@ -1,0 +1,40 @@
+package array;
+
+import java.util.*;
+
+public class EstadisticaPalabras {
+	
+	static public void main(String[] args){
+		int vocales = 0;
+		int consonantes = 0;
+		String input = Entrada.cadena();
+		ArrayList<String> al = new ArrayList<String>();
+		
+		StringTokenizer st = new StringTokenizer(input);
+		
+		for(int i = 0; i>st.countTokens();i++){
+			al.add(st.nextToken());
+		}
+		
+		TreeMap<String, Integer> tm = new TreeMap<>();
+		
+		for(int i = 0; i<al.size(); i++){
+			if(tm.put(al.get(i), 1)!=null){
+				tm.put(al.get(i), tm.get(al.get(i))+1);
+			}
+		}
+		for(String c: tm.keySet()){
+			for(int i = 0; i<c.length();i++){
+				if(c.toLowerCase().charAt(i)=='a'||c.toLowerCase().charAt(i)=='e'||c.toLowerCase().charAt(i)=='i'||c.toLowerCase().charAt(i)=='o'||c.toLowerCase().charAt(i)=='u')
+					vocales =+ tm.get(c);
+				else
+					consonantes =+ tm.get(c);
+			}
+			System.out.println(c+": "+tm.get(c));
+		}
+		System.out.println("vocales: "+vocales);
+		System.out.println("no vocales: "+consonantes);
+		
+	}
+
+}

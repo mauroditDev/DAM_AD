@@ -1,0 +1,12 @@
+package array;
+
+public class EstadisticaPalabras {
+	
+	static public void main(String[] args){
+		String a;
+		a = Entrada.cadena();
+		
+		System.out.println(a);
+	}
+
+}
