@@ -21,6 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.ButtonGroup;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import java.awt.Toolkit;
+import java.util.GregorianCalendar;
 
 public class Gui extends JFrame {
 
@@ -37,11 +39,27 @@ public class Gui extends JFrame {
 	private JButton btnBuscar;
 	private JTextArea textAreaResult;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTextField textFieldPath;
+	private JTextField textFieldEncontrados;
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	private JRadioButton rdbtnAntes;
+	private JRadioButton rdbtnDespues;
+	private JTextField textFieldFecha;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+        	ex.getMessage();
+        }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -58,8 +76,11 @@ public class Gui extends JFrame {
 	 * Create the frame.
 	 */
 	public Gui() {
+		setResizable(false);
+		setTitle("Buscador de Archivos");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("/usr/share/icons/gnome/48x48/status/folder-visiting.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 548, 394);
+		setBounds(100, 100, 548, 569);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,26 +90,33 @@ public class Gui extends JFrame {
 		btnSelect.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
-				origen = ImpresionCarpeta.ventanaSeleccion();
+				if(origen == null)
+					origen = ImpresionCarpeta.ventanaSeleccion();
+				else{
+					origen = ImpresionCarpeta.ventanaSeleccion(origen);
+				}
+				if(origen != null)
+					textFieldPath.setText(origen.getAbsolutePath());
 			}
 			
 		});
-		btnSelect.setBounds(54, 298, 197, 25);
+		btnSelect.setBounds(49, 469, 149, 25);
 		contentPane.add(btnSelect);
 		
 		
 		rdbtnMayor = new JRadioButton("Mayores");
+		rdbtnMayor.setSelected(true);
 		buttonGroup.add(rdbtnMayor);
-		rdbtnMayor.setBounds(159, 241, 149, 23);
+		rdbtnMayor.setBounds(154, 412, 149, 23);
 		contentPane.add(rdbtnMayor);
 		
 		rdbtnMenores = new JRadioButton("Menores");
 		buttonGroup.add(rdbtnMenores);
-		rdbtnMenores.setBounds(159, 267, 149, 23);
+		rdbtnMenores.setBounds(154, 438, 149, 23);
 		contentPane.add(rdbtnMenores);
 		
 		chckbxOcultos = new JCheckBox("Incluir ocultos");
-		chckbxOcultos.setBounds(337, 252, 164, 23);
+		chckbxOcultos.setBounds(329, 438, 164, 23);
 		contentPane.add(chckbxOcultos);
 		
 		btnBuscar = new JButton("Buscar");
@@ -96,26 +124,45 @@ public class Gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try{
-					tamano = Long.parseLong(textFieldSize.getText());
-					if( rdbtnMayor.isSelected()){
-						result = ImpresionCarpeta.buscarArchivoPorTamano(origen, '+', tamano, chckbxOcultos.isSelected());
-						String texto = new String();
-						for(int i = 0; i<result.size();i++){
-							texto = texto.concat(ImpresionCarpeta.mostrarInfo(result.get(i)).replace(origen.getAbsolutePath(),"").concat("\n"));
+					if(origen != null){
+						if(textFieldFecha.getText().matches("[0-9]{4}-[0-1][0-9]-[0-3][0-9]")){
+							long fecha;
+							String[] aux = textFieldFecha.getText().split("-");
+							GregorianCalendar(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]));
+							fecha = 4;
+							result = ImpresionCarpeta.buscarArchivoPorFecha(origen, rdbtnAntes.isSelected(), fecha, chckbxOcultos.isSelected());
+							String texto = new String();
+							for(int i = 0; i<result.size();i++){
+								texto = texto.concat(ImpresionCarpeta.mostrarInfo(result.get(i)).replace(origen.getAbsolutePath(),".").concat("\n"));
+							}
+							textAreaResult.setText(texto);
+							textAreaResult.setEnabled(true);
+							textFieldEncontrados.setText(String.valueOf(result.size()));
+							texto = "";
 						}
-						textAreaResult.setText(texto);
-						textAreaResult.setEnabled(true);
-						texto = "";
-					}
-					else{
-						result = ImpresionCarpeta.buscarArchivoPorTamano(origen, '-', tamano, chckbxOcultos.isSelected());
-						String texto = new String();
-						for(int i = 0; i<result.size();i++){
-							texto = texto.concat(ImpresionCarpeta.mostrarInfo(result.get(i)).concat("\n"));
+						tamano = Long.parseLong(textFieldSize.getText());
+						if( rdbtnMayor.isSelected()){
+							result = ImpresionCarpeta.buscarArchivoPorTamano(origen, '+', tamano, chckbxOcultos.isSelected());
+							String texto = new String();
+							for(int i = 0; i<result.size();i++){
+								texto = texto.concat(ImpresionCarpeta.mostrarInfo(result.get(i)).replace(origen.getAbsolutePath(),".").concat("\n"));
+							}
+							textAreaResult.setText(texto);
+							textAreaResult.setEnabled(true);
+							textFieldEncontrados.setText(String.valueOf(result.size()));
+							texto = "";
 						}
-						textAreaResult.setText(texto);
-						textAreaResult.setEnabled(true);
-						texto = "";
+						else{
+							result = ImpresionCarpeta.buscarArchivoPorTamano(origen, '-', tamano, chckbxOcultos.isSelected());
+							String texto = new String();
+							for(int i = 0; i<result.size();i++){
+								texto = texto.concat(ImpresionCarpeta.mostrarInfo(result.get(i)).replace(origen.getAbsolutePath(),".").concat("\n"));
+							}
+							textAreaResult.setText(texto);
+							textAreaResult.setEnabled(true);
+							textFieldEncontrados.setText(String.valueOf(result.size()));
+							texto = "";
+						}
 					}
 				}catch(NumberFormatException ex){
 					javax.swing.JOptionPane.showConfirmDialog(null, "Tiene que introducir un numero entero", "Formulario incorrecto", 
@@ -127,27 +174,65 @@ public class Gui extends JFrame {
 				
 			}
 		});
-		btnBuscar.setBounds(288, 298, 117, 25);
+		btnBuscar.setBounds(200, 506, 117, 25);
 		contentPane.add(btnBuscar);
 		
 		
 		
-		JLabel lblTamanoEnBytes = new JLabel("Tamano en bytes");
-		lblTamanoEnBytes.setBounds(54, 227, 164, 15);
+		JLabel lblTamanoEnBytes = new JLabel("Tamaño en bytes");
+		lblTamanoEnBytes.setBounds(49, 395, 164, 15);
 		contentPane.add(lblTamanoEnBytes);
 		
 		textFieldSize = new JTextField();
-		textFieldSize.setBounds(193, 225, 114, 19);
+		textFieldSize.setBounds(188, 390, 138, 25);
 		contentPane.add(textFieldSize);
 		textFieldSize.setColumns(10);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(54, 25, 457, 182);
+		scrollPane_1.setBounds(32, 25, 494, 301);
 		contentPane.add(scrollPane_1);
 		
 		textAreaResult = new JTextArea();
 		scrollPane_1.setViewportView(textAreaResult);
 		textAreaResult.setEnabled(false);
 		textAreaResult.setEditable(false);
+		
+		textFieldPath = new JTextField();
+		textFieldPath.setEnabled(false);
+		textFieldPath.setEditable(false);
+		textFieldPath.setBounds(210, 469, 296, 30);
+		contentPane.add(textFieldPath);
+		textFieldPath.setColumns(10);
+		
+		JLabel lblEntradas = new JLabel("Encontrados:");
+		lblEntradas.setBounds(329, 416, 99, 15);
+		contentPane.add(lblEntradas);
+		
+		textFieldEncontrados = new JTextField();
+		textFieldEncontrados.setEnabled(false);
+		textFieldEncontrados.setEditable(false);
+		textFieldEncontrados.setBounds(437, 411, 70, 25);
+		contentPane.add(textFieldEncontrados);
+		textFieldEncontrados.setColumns(10);
+		
+		rdbtnAntes = new JRadioButton("Antes");
+		rdbtnAntes.setSelected(true);
+		buttonGroup_1.add(rdbtnAntes);
+		rdbtnAntes.setBounds(280, 359, 70, 23);
+		contentPane.add(rdbtnAntes);
+		
+		rdbtnDespues = new JRadioButton("Después");
+		buttonGroup_1.add(rdbtnDespues);
+		rdbtnDespues.setBounds(358, 359, 87, 23);
+		contentPane.add(rdbtnDespues);
+		
+		textFieldFecha = new JTextField();
+		textFieldFecha.setBounds(49, 359, 200, 27);
+		contentPane.add(textFieldFecha);
+		textFieldFecha.setColumns(10);
+		
+		JLabel lblFechaModificacin = new JLabel("Fecha Modificación:");
+		lblFechaModificacin.setBounds(49, 332, 164, 15);
+		contentPane.add(lblFechaModificacin);
 	}
 }

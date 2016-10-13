@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
+<fullyQualifiedTypeName name="java.util.GregorianCalendar"/>
 </qualifiedTypeNameHistroy>

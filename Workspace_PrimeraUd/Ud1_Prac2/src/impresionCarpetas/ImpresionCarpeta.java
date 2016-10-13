@@ -166,8 +166,49 @@ public class ImpresionCarpeta {
 							if(lista[i].length() < tamano)
 								res.add(lista[i]);
 							break;
+						case 'b':
+							if(lista[i].lastModified() < tamano)
+								res.add(lista[i]);
+							break;
+						case 'a':
+							if(lista[i].lastModified() > tamano)
+								res.add(lista[i]);
+							break;
 						default:
 							res = null;
+						}
+					}	
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+public static ArrayList<File> buscarArchivoPorFecha(File rutaComienzo, boolean anterior, long tamano,boolean inclOcultos){
+		
+		ArrayList<File> res = null;
+		
+		File[] lista = null;
+		if(rutaComienzo.exists() && rutaComienzo.isDirectory())
+			 lista = rutaComienzo.listFiles();
+		
+		if(lista!=null){
+			res = new ArrayList<File>();
+			for(int i = 0; i< lista.length; i++){
+				if(lista[i].isDirectory()){
+					if((!inclOcultos && !lista[i].isHidden())||(inclOcultos))
+					res.addAll(buscarArchivoPorFecha(lista[i],anterior,tamano,inclOcultos));
+				}
+				else{
+					if((!inclOcultos && !lista[i].isHidden())||(inclOcultos)){
+						if(anterior){
+							if(lista[i].lastModified() <= tamano)
+								res.add(lista[i]);
+						}
+						else{
+							if(lista[i].lastModified() >= tamano)
+								res.add(lista[i]);
 						}
 					}	
 				}
