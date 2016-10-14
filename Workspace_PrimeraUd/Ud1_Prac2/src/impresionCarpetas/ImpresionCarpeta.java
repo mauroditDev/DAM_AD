@@ -1,6 +1,7 @@
 package impresionCarpetas;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -185,6 +186,50 @@ public class ImpresionCarpeta {
 		return res;
 	}
 	
+	public static ArrayList<File> buscarArchivoPorNombre(File rutaComienzo, String regex,boolean inclOcultos){
+		
+		ArrayList<File> res = null;
+		
+		File[] lista = null;
+		if(rutaComienzo.exists() && rutaComienzo.isDirectory())
+			 lista = rutaComienzo.listFiles();
+		
+		if(lista!=null){
+			res = new ArrayList<File>();
+			for(int i = 0; i< lista.length; i++){
+				if(lista[i].isDirectory()){
+					if((!inclOcultos && !lista[i].isHidden())||(inclOcultos))
+					res.addAll(buscarArchivoPorNombre(lista[i],regex,inclOcultos));
+				}
+				else{
+					if((!inclOcultos && !lista[i].isHidden())||(inclOcultos)){
+						if(lista[i].getName().matches(regex))
+							res.add(lista[i]);
+					}	
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	public static ArrayList<File> buscarArchivoPorNombre(ArrayList<File> origen, String regex,boolean inclOcultos){
+		
+		ArrayList<File> res = null;
+		
+		res = new ArrayList<File>();
+		for(int i = 0; i< origen.size(); i++){
+			if((!inclOcultos && !origen.get(i).isHidden())||(inclOcultos)){
+				if(origen.get(i).getName().matches(regex))
+					res.add(origen.get(i));
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	
 public static ArrayList<File> buscarArchivoPorFecha(File rutaComienzo, boolean anterior, long tamano,boolean inclOcultos){
 		
 		ArrayList<File> res = null;
@@ -220,6 +265,7 @@ public static ArrayList<File> buscarArchivoPorFecha(File rutaComienzo, boolean a
 	
 	public static String mostrarInfo(File ruta){
 		String res = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
 		if(ruta.exists()){
 			if(ruta.isDirectory())
@@ -234,6 +280,8 @@ public static ArrayList<File> buscarArchivoPorFecha(File rutaComienzo, boolean a
 			
 			if(ruta.isHidden())
 				res = res.concat("(*)");
+			
+			res = res + " ( " + sdf.format(ruta.lastModified()) + " ) ";
 			
 		}
 		
@@ -255,5 +303,37 @@ public static ArrayList<File> buscarArchivoPorFecha(File rutaComienzo, boolean a
 	public static File ventanaSeleccion(){
 		return ventanaSeleccion(new File("/"));
 	}
+	
+public static ArrayList<File> buscarArchivoPorTamano(ArrayList<File> origen, char criterio, long tamano,boolean inclOcultos){
+		
+	ArrayList<File> res = new ArrayList<File>();
+	
+	for(int i = 0; i< origen.size(); i++){
+		if((!inclOcultos && !origen.get(i).isHidden())||(inclOcultos)){
+			switch(criterio){
+			case '+':
+				if(origen.get(i).length() > tamano)
+					res.add(origen.get(i));
+				break;
+			case '-':
+				if(origen.get(i).length() < tamano)
+					res.add(origen.get(i));
+				break;
+			case 'b':
+				if(origen.get(i).lastModified() < tamano)
+					res.add(origen.get(i));
+				break;
+			case 'a':
+				if(origen.get(i).lastModified() > tamano)
+					res.add(origen.get(i));
+				break;
+			default:
+				res = null;
+			}	
+		}
+	}
+	
+	return res;
+}
 
 }
