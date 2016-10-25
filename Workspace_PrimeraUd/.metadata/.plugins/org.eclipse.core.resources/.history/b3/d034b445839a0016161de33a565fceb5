@@ -1,0 +1,10 @@
+package ud2p1;
+
+public class GrabarPersonas {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

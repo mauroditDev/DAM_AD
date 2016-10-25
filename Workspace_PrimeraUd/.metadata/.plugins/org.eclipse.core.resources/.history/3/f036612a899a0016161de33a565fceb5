@@ -1,0 +1,34 @@
+package ud2p1;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
+public class ArchivoPersonas {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public void grabarTexto(Persona persona){
+		
+		try{
+			PrintWriter pw = new PrintWriter(new FileWriter(
+				new File("/home/alumno/vacia2/personas.txt"),true));
+			
+			pw.write(persona.edad);
+			pw.write(persona.nombre);
+			pw.write(persona.sexo);
+			
+			pw.close();
+			
+		}catch(Exception e){
+			System.err.println(e.getClass().toString());
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+
+}

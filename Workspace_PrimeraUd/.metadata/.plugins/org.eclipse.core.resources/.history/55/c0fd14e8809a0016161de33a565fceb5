@@ -1,0 +1,25 @@
+package ud2p1;
+
+import java.io.File;
+
+public class CopiaArchivos {
+
+	public static void main(String[] args) {
+		
+
+		if(args.length == 2){
+			File a1 = new File(args[0]);
+			if(a1.exists()){
+				
+			}
+			else{
+				System.out.println("no se encuentra el archivo de origen");
+			}
+		}
+		else{
+			System.out.println("este programa requiere dos argumentos");
+		}
+
+	}
+
+}
