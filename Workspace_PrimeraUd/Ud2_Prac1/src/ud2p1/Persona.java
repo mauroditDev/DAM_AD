@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class Persona implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2532554957846287933L;
+	
 	int	edad; // >0
 	String nombre;
 	char sexo; //M - Masculino, F - Femenino

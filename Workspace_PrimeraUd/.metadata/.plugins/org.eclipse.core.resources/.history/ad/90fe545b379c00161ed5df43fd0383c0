@@ -1,0 +1,18 @@
+package ud2p1;
+
+import java.io.Serializable;
+
+public class Trabajo implements Serializable {
+	int	tipo;
+	String descripcion;
+	
+	public Trabajo( int	tipo, String descripcion) {
+		this.tipo = tipo;
+		this.descripcion = descripcion;
+	}
+	
+	public String toString() {
+		return "Trabajo [tipo=" + tipo + ", descripcion=" + descripcion + "]";
+	}
+	
+}

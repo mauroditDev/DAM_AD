@@ -1,0 +1,7 @@
+package ud2p1;
+
+import java.io.Serializable;
+
+public class Trabajo implements Serializable {
+
+}
