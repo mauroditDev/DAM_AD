@@ -1,0 +1,71 @@
+package ud2p2;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public class GUI extends JFrame {
+
+	private File file;
+	private JPanel contentPane;
+	private JTextField textFieldEntrada;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUI frame = new GUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnSelecionarTexto = new JButton("Selecionar Texto");
+		btnSelecionarTexto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnSelecionarTexto.setBounds(79, 27, 188, 25);
+		contentPane.add(btnSelecionarTexto);
+		
+		JLabel lblAConvertir = new JLabel("A convertir");
+		lblAConvertir.setBounds(79, 92, 115, 25);
+		contentPane.add(lblAConvertir);
+		
+		JButton btnConvertir = new JButton("Convertir");
+		btnConvertir.setBounds(132, 182, 117, 25);
+		contentPane.add(btnConvertir);
+		
+		textFieldEntrada = new JTextField();
+		textFieldEntrada.setBounds(196, 95, 214, 25);
+		contentPane.add(textFieldEntrada);
+		textFieldEntrada.setColumns(10);
+	}
+}
