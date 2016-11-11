@@ -309,7 +309,6 @@ public class Gui extends JFrame {
 					fos = new FileOutputStream(origen.getAbsolutePath()+"salida.txt");
 					PrintWriter pw = new PrintWriter(fos);
 					pw.print(texto);
-					pw.close();
 				} catch (FileNotFoundException e1) {
 
 				}

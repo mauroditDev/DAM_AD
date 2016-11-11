@@ -101,7 +101,7 @@ public class Ejercicio_8 {
 			pw.write(persona.sexo);
 			pw.write("\t\t</sexo>\n");
 			pw.write("\n");
-			pw.write("</persona>\n");
+			pw.write("\t</persona>\n");
 			
 			
 			pw.write("\n");
@@ -121,10 +121,25 @@ public class Ejercicio_8 {
 		try{
 			File file = new File("/home/alumno/vacia2/personas.xml");
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			
+			PersonaSegundo per = new PersonaSegundo();
 			String aux = br.readLine();
 			while(aux != null){
 				System.out.println(aux);
+				if(aux.equals("\t<persona>")){
+					per = new PersonaSegundo();
+				}
+				if(aux.equals("\t\t<edad>\n")){
+					per.edad = Integer.parseInt(br.readLine());
+				}
+				if(aux.equals("\t\t<nombre>\n")){
+					per.nombre = br.readLine().trim();
+				}
+				if(aux.equals("\t\t<nombre>\n")){
+					//per.sexo = br.readLine().trim();
+				}
+				if(aux.equals("\t</persona>")){
+					System.out.println(per.toString());
+				}
 				aux = br.readLine();
 			}
 			

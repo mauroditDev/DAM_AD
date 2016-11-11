@@ -1,6 +1,5 @@
 package ud2p2;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFileChooser;
@@ -12,7 +11,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
 import javax.swing.JLabel;
@@ -20,6 +18,10 @@ import javax.swing.JTextField;
 
 public class Ejercicio_7 extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private File file;
 	private JPanel contentPane;
 	private JTextField textFieldEntrada;
