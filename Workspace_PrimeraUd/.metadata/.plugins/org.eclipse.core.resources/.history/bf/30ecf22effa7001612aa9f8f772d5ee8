@@ -8,9 +8,11 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 
 public class Ejercicio4 {
@@ -41,15 +43,21 @@ public class Ejercicio4 {
 
 	         String res = xPath.compile(expression).evaluate(doc);
 	         
-	         if(res.length()==0){
+	         System.out.println(res);
+	         /*NodeList nodeList = 
+	        		 (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+	         
+	         
+	         if(nodeList.getLength() == 0){
 	        	 System.out.println("la línea no existe");
 	         }
 	         else{
-	        	 long puntero = Long.valueOf(res);
+	        	 String punteroS = nodeList.item(0).getTextContent();
+	        	 long puntero = Long.valueOf(punteroS);
 	        	 raf.seek(puntero);
 	        	 System.out.println(raf.readLine());
 	         }
-	         
+	         */
 	         raf.close();
 	         sc.close();
 	         
