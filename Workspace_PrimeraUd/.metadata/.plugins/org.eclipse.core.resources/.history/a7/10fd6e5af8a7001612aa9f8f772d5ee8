@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 
 public class Ejercicio3 {
 
+	public static int inicial;
 	
 	public static void main(String[] args) {
 		try{
@@ -52,15 +53,19 @@ public class Ejercicio3 {
 			RandomAccessFile raf = new RandomAccessFile(origen,"rw");
 			long pointer = 0;
 			int lineas = 1;
+			int i=0;
 			Element libro = doc.createElement("libro");
 			libro.setAttribute("nombre", origen.getName());
-			Element linea;
+			while(raf.readLine()!=null)
+				i++;
+			Element[] linea = new Element[i];
+			raf.seek(0);
 			while(raf.readLine()!=null){
-				linea = doc.createElement("linea");
-				linea.setAttribute("num", String.valueOf(lineas));
-				linea.setTextContent(String.valueOf(pointer));
+				linea[lineas-1] = doc.createElement("linea");
+				linea[lineas-1].setAttribute("num", String.valueOf(lineas));
+				linea[lineas-1].setTextContent(String.valueOf(pointer));
 				pointer = raf.getFilePointer();
-				libro.appendChild(linea);
+				libro.appendChild(linea[lineas-1]);
 				lineas++;
 			}
 			root.appendChild(libro);
