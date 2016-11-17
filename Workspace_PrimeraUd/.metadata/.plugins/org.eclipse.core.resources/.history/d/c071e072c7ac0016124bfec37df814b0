@@ -1,0 +1,80 @@
+package ejercicio_desayunos;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+public class Desayunos {
+	public static void main(String[] args) {
+
+	      try {	
+	         File inputFile = new File("/home/alumno/Desayunos/desayunos.xml");
+	         File outputFile = new File("/home/alumno/Desayunos/desayunos-mod.xml");
+	         
+	         DocumentBuilderFactory dbFactory 
+	            = DocumentBuilderFactory.newInstance();
+	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	         Document doc = dBuilder.parse(inputFile);
+	         doc.getDocumentElement().normalize();
+	         
+	         Node raiz = doc.getChildNodes().item(0);
+	         double calorias = 0;
+	         for (int i = 0; i < raiz.getChildNodes().getLength(); i++){
+	        	 
+	    		 Node desayuno = raiz.getChildNodes().item(i);
+	    		 
+	    		 if(desayuno.getNodeType()==Node.ELEMENT_NODE){
+	        		for(int j = 0; j< desayuno.getChildNodes().getLength(); j++){
+	        			
+	        			Node nodo = desayuno.getChildNodes().item(j);
+	        			
+	        			if(nodo.getNodeType()==Node.ELEMENT_NODE){
+							 if(nodo.getNodeName().equals("calorias")){
+				        		 calorias += Double.valueOf(nodo.getTextContent());
+				        	 }
+			        		 if(nodo.getNodeName().equals("descripcion")){
+				        		 nodo.getParentNode().removeChild(nodo);
+				        	 }
+			        		 if(nodo.getNodeName().equals("precio")){
+			        			 String moneda = nodo.getAttributes().item(0).toString();
+			        			 System.out.println(moneda);
+			        		 }
+			        		 
+		        		}
+	        			
+	        		}
+	        		 
+	    		 }
+	    		 
+	         }
+	         Element totalCalorias = doc.createElement("total_calorias");
+    		 totalCalorias.setTextContent(String.valueOf(calorias));
+    		 raiz.appendChild(totalCalorias);
+             
+             // write the content into xml file
+             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+             Transformer transformer = transformerFactory.newTransformer();
+             DOMSource source = new DOMSource(doc);
+             StreamResult result = new StreamResult(outputFile);
+             transformer.transform(source, result);
+	         
+	         
+	      }catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	}
+}

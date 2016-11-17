@@ -27,6 +27,8 @@ public class Ejercicio4 {
 	         doc.getDocumentElement().normalize();
 	         
 	         Scanner sc = new Scanner(System.in);
+	         System.out.println("BUSQUEDA DE LIBRO (PUSLE INTRO)");
+	         sc.nextLine();
 	         System.out.println("Título del libro?");
 	         
 	         String titulo = sc.nextLine();
