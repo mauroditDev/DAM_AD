@@ -45,8 +45,6 @@ public class Desayunos {
 	        	 linea = br.readLine();
 	         }
 	         
-	         br.close();
-	         
 	         for (int i = 0; i < raiz.getChildNodes().getLength(); i++){
 	        	 
 	    		 Node desayuno = raiz.getChildNodes().item(i);
