@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15509931-1941-4d61-a71a-40f406e943da">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FAEBD7">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFE4BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FAEBD7">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFE4BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="inicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["000000"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fin" class="java.lang.String">
+		<defaultValueExpression><![CDATA["zzzzzz"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * from clientes WHERE codigo<=$P{fin} AND codigo>= $P{inicio};]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nif" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="domicilio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo_postal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="movil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_ventas" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="410" y="15" width="116" height="20" uuid="d9b155c3-aa06-4112-90f8-b957b6d10dd0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página  "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="15" width="131" height="20" uuid="6629c0fe-f0ff-403f-abe0-b0026ee320f1"/>
+				<textFieldExpression><![CDATA[FECHA: new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="526" y="15" width="45" height="20" uuid="f0a55518-efda-4a56-a895-5c47d3f464e0"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="28" width="569" height="1" uuid="a0e87421-eda9-428f-911b-eb33348db5eb"/>
+			</line>
+			<staticText>
+				<reportElement x="79" y="10" width="119" height="20" uuid="8940108e-991a-4b8b-92db-5fb113bb4ec9"/>
+				<text><![CDATA[Apellidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="70" height="20" uuid="8b480cef-c090-468b-acc6-f01fcfc7eee0"/>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="208" y="10" width="117" height="20" uuid="a40a6cb1-964f-47d0-bc1c-0753a17a5227"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="10" width="148" height="20" uuid="18470c96-f2ac-4a24-afe8-5ea966276d86"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="10" width="68" height="20" uuid="1a14a7c7-4460-4612-9b49-a6dcdd82ad64"/>
+				<text><![CDATA[Total Ventas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="503" y="10" width="64" height="14" uuid="e462d082-80b0-4d0c-a13a-225cf6ac7223"/>
+				<textFieldExpression><![CDATA[$F{total_ventas}.toString( float )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="8" width="70" height="15" uuid="fb4311be-8056-4351-bba7-0c590f29cadb"/>
+				<textFieldExpression><![CDATA[$F{codigo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="8" width="119" height="16" uuid="4a033715-70c1-43f9-8cf9-8bf93337302b"/>
+				<textFieldExpression><![CDATA[$F{apellidos}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="8" width="117" height="15" uuid="485fa3ee-f3b6-4e7d-b053-d8ab0344f715"/>
+				<textFieldExpression><![CDATA[$F{nombre}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="8" width="148" height="15" uuid="64dbcccb-b5ed-4beb-bf96-e8acff7578be"/>
+				<textFieldExpression><![CDATA[$F{email}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

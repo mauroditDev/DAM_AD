@@ -50,7 +50,7 @@ public class Desayunos {
 	         for (int i = 0; i < raiz.getChildNodes().getLength(); i++){
 	        	 
 	    		 Node desayuno = raiz.getChildNodes().item(i);
-	    		 
+	    		 System.out.println(desayuno.getNodeName()+"_"+i);
 	    		 if(desayuno.getNodeType()==Node.ELEMENT_NODE){
 	        		for(int j = 0; j< desayuno.getChildNodes().getLength(); j++){
 	        			
