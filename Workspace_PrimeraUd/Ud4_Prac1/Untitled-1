@@ -1,0 +1,33 @@
+
+drop database if exists banco;
+
+create database almacen;
+
+use almacen;
+
+create table cliente(
+	id INT UNSIGNED PRIMARY KEY,
+	nombre varchar(100),
+	f_nac date,
+	nombre varchar(15),
+	direccion varchar(100)
+);
+
+create table titular(
+	id_cuenta INT(11),
+	id_cliente INT.
+	FOREIGN KEY fk_tit_cue (id_cuenta) REFERENCES cuenta (id) ON DELETE CASCADE,
+	FOREIGN KEY fk_tit_cli (id_cuenta) REFERENCES cliente (id) ON DELETE CASCADE,
+);
+
+create table cuenta(
+	id INT(11),
+	saldo INT(11)
+);
+
+create table movimiento(
+	id INT(11),
+	f_h DATETIME,
+	importe INT(11),
+	id_cuente INT(11)
+);

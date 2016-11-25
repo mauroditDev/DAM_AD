@@ -1,0 +1,47 @@
+package practica1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+
+
+public class DBmanager {
+	public Connection con;
+    public Statement stmnt;
+    
+    public DBmanager(){
+       try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = DriverManager.getConnection("jdbc:mysql://localhost/","root","root");
+			stmnt = con.createStatement();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    }
+
+    public boolean createTables() throws YaExisteException{
+    	boolean res = true;
+    	try{
+    		stmnt.executeUpdate("create database test01");
+    	}catch(SQLException e){
+    		throw new YaExisteException("La base de datos ya existe");
+    	}catch(Exception e){
+    		res = false;
+    	}
+    	
+    	return res;
+    	
+    }
+
+	public boolean reiniciarTablas() {
+		boolean res = true;
+		try{
+			
+		}
+		return res;
+	}
+}
