@@ -80,17 +80,13 @@ public class UI extends JFrame {
 		JMenu mnMantenimiento = new JMenu("Mantenimiento");
 		menuBar.add(mnMantenimiento);
 		
-		JMenu mnClientes = new JMenu("Clientes");
-		mnMantenimiento.add(mnClientes);
-		
-		JMenuItem mntmAlta = new JMenuItem("Alta");
-		mntmAlta.addActionListener(new ActionListener() {
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClienteUI cli = new ClienteUI(dbManager,0);
-				cli.setVisible(true);
+				new ClienteUI(dbManager).setVisible(true);
 			}
 		});
-		mnClientes.add(mntmAlta);
+		mnMantenimiento.add(mntmClientes);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
