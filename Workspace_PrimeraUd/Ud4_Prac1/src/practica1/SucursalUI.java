@@ -23,11 +23,9 @@ public class SucursalUI extends JDialog {
 	
 	private final JPanel contentPanel = new JPanel();
 	private JButton okButton;
-	private JTextField textFieldNombre;
-	private JTextField textFieldF_nac;
+	private JTextField textFieldCp;
 	private JTextField textFieldDireccion;
 	private JTextField textFieldId;
-	private ArrayList<String> resultado;
 	private JList<String> list;
 	private JScrollPane scrollPane;
 
@@ -38,30 +36,20 @@ public class SucursalUI extends JDialog {
 	public SucursalUI(DBmanager dbman) {
 		setTitle("Clientes");
 		dbManager = dbman;
-		resultado = new ArrayList<>();
 		setBounds(100, 100, 450, 503);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(12, 53, 159, 19);
-		contentPanel.add(textFieldNombre);
-		textFieldNombre.setColumns(10);
+		textFieldCp = new JTextField();
+		textFieldCp.setBounds(12, 53, 159, 19);
+		contentPanel.add(textFieldCp);
+		textFieldCp.setColumns(10);
 		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(12, 26, 70, 15);
+		JLabel lblNombre = new JLabel("Código Postal");
+		lblNombre.setBounds(12, 26, 135, 15);
 		contentPanel.add(lblNombre);
-		
-		JLabel lblFechaNacimiento = new JLabel("Fecha Nacimiento");
-		lblFechaNacimiento.setBounds(208, 26, 159, 15);
-		contentPanel.add(lblFechaNacimiento);
-		
-		textFieldF_nac = new JTextField();
-		textFieldF_nac.setColumns(10);
-		textFieldF_nac.setBounds(208, 53, 159, 19);
-		contentPanel.add(textFieldF_nac);
 		
 		JLabel lblDireccion = new JLabel("Dirección");
 		lblDireccion.setBounds(12, 84, 70, 15);
@@ -101,8 +89,9 @@ public class SucursalUI extends JDialog {
 							if(javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 								"confirme que quiere modificar a id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								if(!dbManager.modCliente(textFieldId.getText(), textFieldNombre.getText(),
-										textFieldF_nac.getText(), textFieldDireccion.getText())){
+								Sucursal suc = new Sucursal(textFieldId.getText(), textFieldCp.getText(),
+										textFieldDireccion.getText());
+								if(!dbManager.modSucursal(suc)){
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 											"El cliente no existe o ha ocurrido"
 											+ "un error en la modificación","Error",
@@ -117,15 +106,15 @@ public class SucursalUI extends JDialog {
 							}
 						}
 						else if(vacia() && textFieldId.getText().length()>0){
-							if(dbManager.getClient(textFieldId.getText(),resultado)){
-								textFieldNombre.setText(resultado.get(0));
-								textFieldF_nac.setText(resultado.get(1));
-								textFieldDireccion.setText(resultado.get(2));
-								resultado.clear();
+							Sucursal suc = new Sucursal();
+							
+							if(dbManager.getSucursal(textFieldId.getText(),suc)){
+								textFieldCp.setText(suc.cp);
+								textFieldDireccion.setText(suc.direccion);
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-										"El cliente no existe o ha ocurrido un error","Error",
+										"La sucursal no existe o ha ocurrido un error","Error",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
 							}
 						}
@@ -145,7 +134,7 @@ public class SucursalUI extends JDialog {
 							if(javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 									"seguro que desea eliminar al cliente id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								if(dbManager.eliminarCliente(textFieldId.getText())){
+								if(dbManager.eliminarSucursal(textFieldId.getText())){
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 											"Cliente eliminado","éxito",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
@@ -174,8 +163,9 @@ public class SucursalUI extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int key = 0;
 						if(llena() && textFieldId.getText().length()==0){
-							key = dbManager.addCliente(textFieldNombre.getText(),textFieldF_nac.getText(),
+							Sucursal suc = new Sucursal(0,textFieldCp.getText(),
 									textFieldDireccion.getText());
+							key = dbManager.addSucursal(suc);
 							if(key==-1){
 								javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 										"Error en la inserción","Error",
@@ -219,16 +209,15 @@ public class SucursalUI extends JDialog {
 	}
 	
 	private boolean vacia(){
-		if(textFieldF_nac.getText().length()==0 &&
-			textFieldNombre.getText().length()==0 &&
+		if( textFieldCp.getText().length()==0 &&
 			textFieldDireccion.getText().length()==0){
 			return true;
 		}
 		return false;
 	}
 	private boolean llena(){
-		if(textFieldF_nac.getText().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")&&
-				textFieldNombre.getText().length()>0 &&
+		if(
+				textFieldCp.getText().length()>0 &&
 				textFieldDireccion.getText().length()>0){
 			return true;
 		}

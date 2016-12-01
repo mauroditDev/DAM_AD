@@ -27,7 +27,6 @@ public class ClienteUI extends JDialog {
 	private JTextField textFieldF_nac;
 	private JTextField textFieldDireccion;
 	private JTextField textFieldId;
-	private ArrayList<String> resultado;
 	private JList<String> list;
 	private JScrollPane scrollPane;
 
@@ -38,7 +37,6 @@ public class ClienteUI extends JDialog {
 	public ClienteUI(DBmanager dbman) {
 		setTitle("Clientes");
 		dbManager = dbman;
-		resultado = new ArrayList<>();
 		setBounds(100, 100, 450, 503);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -101,8 +99,9 @@ public class ClienteUI extends JDialog {
 							if(javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 								"confirme que quiere modificar a id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								if(!dbManager.modCliente(textFieldId.getText(), textFieldNombre.getText(),
-										textFieldF_nac.getText(), textFieldDireccion.getText())){
+								Cliente cli = new Cliente(textFieldId.getText(), textFieldNombre.getText(),
+										textFieldF_nac.getText(), textFieldDireccion.getText());
+								if(!dbManager.modCliente(cli)){
 									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 											"El cliente no existe o ha ocurrido"
 											+ "un error en la modificación","Error",
@@ -117,11 +116,11 @@ public class ClienteUI extends JDialog {
 							}
 						}
 						else if(vacia() && textFieldId.getText().length()>0){
-							if(dbManager.getClient(textFieldId.getText(),resultado)){
-								textFieldNombre.setText(resultado.get(0));
-								textFieldF_nac.setText(resultado.get(1));
-								textFieldDireccion.setText(resultado.get(2));
-								resultado.clear();
+							Cliente cli = new Cliente();
+							if(dbManager.getClient(textFieldId.getText(),cli)){
+								textFieldNombre.setText(cli.nombre);
+								textFieldF_nac.setText(cli.f_nac);
+								textFieldDireccion.setText(cli.direccion);
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,

@@ -106,7 +106,7 @@ public class DBmanager {
 		return res;
 	}
 
-	public boolean getClient(String id, ArrayList<String> resultado) {
+	public boolean getClient(String id, Cliente cli) {
 		boolean res = true;
 		try{
 			ResultSet rs =
@@ -114,9 +114,13 @@ public class DBmanager {
 					"SELECT nombre, f_nac, direccion FROM cliente WHERE id = "+
 						id
 					);
-			rs.next();
-			for(int i=1;i<4;i++){
-				resultado.add(rs.getString(i));
+			if(rs.next()){
+				cli.nombre = rs.getString(1);
+				cli.f_nac = rs.getString(2);
+				cli.direccion = rs.getString(3);
+			}
+			else{
+				res = false;
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -139,16 +143,15 @@ public class DBmanager {
 		return res;
 	}
 
-	public boolean modCliente(String id, String nombre, String f_nac,
-			String direccion) {
+	public boolean modCliente(Cliente cli) {
 		boolean res = true;
 		try{
 			stmnt.executeUpdate(
 					"UPDATE cliente SET "
-					+ "nombre = '"+nombre+"', "
-					+ "f_nac = '"+f_nac+"', "
-					+ "direccion = '"+direccion+"'"
-					+ " WHERE id = "+id
+					+ "nombre = '"+cli.nombre+"', "
+					+ "f_nac = '"+cli.f_nac+"', "
+					+ "direccion = '"+cli.direccion+"'"
+					+ " WHERE id = "+cli.id
 					);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -198,5 +201,111 @@ public class DBmanager {
 				e.printStackTrace();
 			}
 			return resultado;
+	}
+
+	public boolean modSucursal(Sucursal suc) {
+		boolean res = true;
+		try{
+			stmnt.executeUpdate(
+					"UPDATE sucursal SET "
+					+ "cp = '"+suc.cp+"', "
+					+ "direccion = '"+suc.direccion+"'"
+					+ " WHERE idsucursal = "+suc.idsucursal
+					);
+		}catch(Exception e){
+			e.printStackTrace();
+			res = false;
+		}
+		return res;
+	}
+
+	public boolean getSucursal(String text, Sucursal suc) {
+		try{
+			ResultSet rs =
+			stmnt.executeQuery(
+					"SELECT * FROM sucursal WHERE idsucursal = "+text
+					);
+			if(rs.next()){
+				suc.idsucursal = rs.getInt(1);
+				suc.direccion = rs.getString(2);
+				suc.cp = rs.getString(3);
+			}
+			else{
+				return false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public int addSucursal(Sucursal suc) {
+		int res = -1;
+		try{
+			stmnt.executeUpdate(
+					"INSERT INTO sucursal (cp,direccion) VALUES"
+					+ "( '"+suc.cp+"', "
+					+ " '"+suc.direccion+"')",
+					Statement.RETURN_GENERATED_KEYS
+					);
+			ResultSet rs = stmnt.getGeneratedKeys();
+			rs.next();
+			res = rs.getInt(1);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public boolean eliminarSucursal(String id) {
+		boolean res = true;
+		try{
+			stmnt.executeUpdate(
+					"DELETE FROM sucursal WHERE idsucursal = "
+					+ id 
+					);
+		}catch(Exception e){
+			e.printStackTrace();
+			res = false;
+		}
+		return res;
+	}
+
+	public ArrayList<Cuenta> getCuentas() {
+		ArrayList<Cuenta> resultado = new ArrayList<>();
+		try{
+			ResultSet rs =
+			stmnt.executeQuery(
+					"SELECT cu.*, cl.id_cliente FROM cuenta cu JOIN titular cl"
+					+ " ON cu.id = cl.id_cuenta ORDER BY cu.id DESC"
+					);
+			Cuenta cuenta = new Cuenta();
+			int i = 0;
+			while(rs.next()){
+				
+				if(cuenta.id!=rs.getInt(1)){
+					if(i!=0)
+						resultado.add(cuenta);
+					cuenta = new Cuenta();
+					cuenta.id = rs.getInt(1);
+					cuenta.saldo = rs.getInt(2);
+					cuenta.titulares.add(rs.getInt(3));
+				}
+				
+				cuenta.titulares.add(rs.getInt(3));
+				i = 1;	
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+
+	public int addCuenta(Cuenta cuenta) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

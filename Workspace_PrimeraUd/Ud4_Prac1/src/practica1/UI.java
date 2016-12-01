@@ -87,6 +87,14 @@ public class UI extends JFrame {
 			}
 		});
 		mnMantenimiento.add(mntmClientes);
+		
+		JMenuItem mntmSucursal = new JMenuItem("Sucursal");
+		mntmSucursal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new SucursalUI(dbManager).setVisible(true);
+			}
+		});
+		mnMantenimiento.add(mntmSucursal);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
