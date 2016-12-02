@@ -95,6 +95,14 @@ public class UI extends JFrame {
 			}
 		});
 		mnMantenimiento.add(mntmSucursal);
+		
+		JMenuItem mntmCuenta = new JMenuItem("Cuenta");
+		mntmCuenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new CuentaUI(dbManager).setVisible(true);
+			}
+		});
+		mnMantenimiento.add(mntmCuenta);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

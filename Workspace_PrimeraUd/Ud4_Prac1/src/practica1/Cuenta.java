@@ -14,6 +14,7 @@ public class Cuenta {
 		ArrayList<Integer> tit = new ArrayList<>();
 		
 		String [] aux = titulares.split(",");
+		System.out.println(aux.length);
 		for(int i = 0; i<aux.length; i++){
 			tit.add(Integer.valueOf(aux[i]));
 		}
@@ -24,13 +25,27 @@ public class Cuenta {
 		this.saldo = saldo;
 	}
 	
+	public Cuenta(String titulares, String id, String saldo){
+		ArrayList<Integer> tit = new ArrayList<>();
+		
+		String [] aux = titulares.split(",");
+		for(int i = 0; i<aux.length; i++){
+			tit.add(Integer.valueOf(aux[i].trim()));
+		}
+		
+		
+		this.titulares = tit;
+		this.id = Integer.valueOf(id);
+		this.saldo = Integer.valueOf(saldo);
+	}
+	
 	public Cuenta(){
 		titulares = new ArrayList<>();
-		id = saldo = 0;
+		id = saldo = -99;
 	}
 	
 	public ArrayList<Integer> titulares;
-	public int id;
-	public int saldo;
+	public Integer id;
+	public Integer saldo;
 
 }

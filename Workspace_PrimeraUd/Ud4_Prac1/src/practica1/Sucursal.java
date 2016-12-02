@@ -17,7 +17,7 @@ public class Sucursal {
 		this.direccion = "";
 		this.idsucursal = 0;
 	}
-	public int idsucursal;
+	public Integer idsucursal;
 	public String direccion;
 	public String cp;
 	

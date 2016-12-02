@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JList;
@@ -35,7 +37,7 @@ public class CuentaUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public CuentaUI(DBmanager dbman) {
-		setTitle("Clientes");
+		setTitle("Cuentas");
 		dbManager = dbman;
 		setBounds(100, 100, 450, 503);
 		getContentPane().setLayout(new BorderLayout());
@@ -76,7 +78,7 @@ public class CuentaUI extends JDialog {
 		list = new JList<String>();
 		scrollPane.setViewportView(list);
 		
-		//rellenarTabla();
+		rellenarTabla();
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -90,31 +92,37 @@ public class CuentaUI extends JDialog {
 							if(javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
 								"confirme que quiere modificar a id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								Cuenta cue = new Cuenta(textFieldId.getText(), textFieldTitular.getText(),
+								Cuenta cue = new Cuenta(textFieldTitular.getText(),textFieldId.getText(),
 										textFieldSaldo.getText());
-								if(!dbManager.modCliente(cue)){
+								if(!dbManager.modCuenta(cue)){
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-											"El cliente no existe o ha ocurrido"
+											"El Cuenta no existe o ha ocurrido"
 											+ "un error en la modificación","Error",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 								}
 								else{
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-											"Cliente modificado con éxito","Éxito!",
+											"Cuenta modificado con éxito","Éxito!",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 									rellenarTabla();
 								}
 							}
 						}
 						else if(vacia() && textFieldId.getText().length()>0){
-							Cuenta cue = new Cuenta();
-							if(dbManager.getCuenta(textFieldId.getText(),cue)){
-								textFieldTitular.setText(cue.asdf);
-								textFieldSaldo.setText(cue.asd);
+							Cuenta cue = dbManager.getCuenta(textFieldId.getText());
+							if(cue.id != -99){
+								textFieldSaldo.setText(String.valueOf(cue.saldo));
+								String texto = "";
+								for(Integer titular: cue.titulares){
+									texto += String.valueOf(titular);
+									texto += ", ";
+								}
+								texto = texto.substring(0, texto.length()-2);
+								textFieldTitular.setText(texto);
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-										"El cliente no existe o ha ocurrido un error","Error",
+										"El Cuenta no existe o ha ocurrido un error","Error",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
 							}
 						}
@@ -132,17 +140,17 @@ public class CuentaUI extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(textFieldId.getText().length()>0){
 							if(javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-									"seguro que desea eliminar al cliente id:"+textFieldId.getText(),"advertencia",
+									"seguro que desea eliminar al Cuenta id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								if(dbManager.eliminarCliente(textFieldId.getText())){
+								if(dbManager.eliminarCuenta(textFieldId.getText())){
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-											"Cliente eliminado","éxito",
+											"Cuenta eliminado","éxito",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 									rellenarTabla();
 								}
 								else{
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-											"El cliente no existe o ha ocurrido un error","Error",
+											"El Cuenta no existe o ha ocurrido un error","Error",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 								}
 							}
@@ -173,7 +181,7 @@ public class CuentaUI extends JDialog {
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-										"Cliente introducido con éxito","Éxito!",
+										"Cuenta introducido con éxito","Éxito!",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
 								textFieldId.setText(String.valueOf(key));
 								rellenarTabla();
@@ -216,7 +224,7 @@ public class CuentaUI extends JDialog {
 		return false;
 	}
 	private boolean llena(){
-		if(textFieldSaldo.getText().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")&&
+		if(textFieldSaldo.getText().length()>0 &&
 				textFieldTitular.getText().length()>0){
 			return true;
 		}
@@ -233,14 +241,34 @@ public class CuentaUI extends JDialog {
 		
 		for(int i = 0; i<cuentas.size();i++){
 			data[i]="id: "+String.valueOf(cuentas.get(i).id)+" | ";
-			data[i]+="titular: ";
+			data[i]+="titulares (" + cuentas.get(i).titulares.size()+"):  ";
 			for(Integer titular: cuentas.get(i).titulares){
 				data [i] += String.valueOf(titular) + ", ";
 			}
+			data[i] = data[i].substring(0,data[i].length()-2);
 			data[i]+=" | ";
 			data[i]+="saldo: "+String.valueOf(cuentas.get(i).saldo);
 			
-		}		
+		}
+		
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String sel = list.getSelectedValue();
+				sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
+				Cuenta cuenta = dbManager.getCuenta(sel.trim());
+				String tits = "";
+				for(Integer titular: cuenta.titulares){
+					tits += String.valueOf(titular) + ", ";
+				}
+				textFieldTitular.setText(tits);
+				textFieldSaldo.setText(cuenta.saldo.toString());
+				textFieldId.setText(sel.trim());
+				
+			}
+				
+		});
+		
 		
 		scrollPane.setViewportView(list);
 

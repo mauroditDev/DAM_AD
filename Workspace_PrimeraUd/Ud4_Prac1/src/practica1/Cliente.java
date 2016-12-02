@@ -23,7 +23,7 @@ public class Cliente {
 		direccion = "";
 	}
 	
-	public int id;
+	public Integer id;
 	public String f_nac;
 	public String nombre;
 	public String direccion;

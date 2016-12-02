@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class SucursalUI extends JDialog {
 
@@ -34,7 +36,7 @@ public class SucursalUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public SucursalUI(DBmanager dbman) {
-		setTitle("Clientes");
+		setTitle("Sucursales");
 		dbManager = dbman;
 		setBounds(100, 100, 450, 503);
 		getContentPane().setLayout(new BorderLayout());
@@ -73,6 +75,7 @@ public class SucursalUI extends JDialog {
 		scrollPane.setBounds(12, 200, 424, 230);
 		contentPanel.add(scrollPane);
 		list = new JList<String>();
+		
 		scrollPane.setViewportView(list);
 		
 		rellenarTabla();
@@ -93,13 +96,13 @@ public class SucursalUI extends JDialog {
 										textFieldDireccion.getText());
 								if(!dbManager.modSucursal(suc)){
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-											"El cliente no existe o ha ocurrido"
+											"La Sucursal no existe o ha ocurrido"
 											+ "un error en la modificación","Error",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 								}
 								else{
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-											"Cliente modificado con éxito","Éxito!",
+											"Sucursal modificada con éxito","Éxito!",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 									rellenarTabla();
 								}
@@ -132,17 +135,17 @@ public class SucursalUI extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(textFieldId.getText().length()>0){
 							if(javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-									"seguro que desea eliminar al cliente id:"+textFieldId.getText(),"advertencia",
+									"seguro que desea eliminar la Sucursal id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
 								if(dbManager.eliminarSucursal(textFieldId.getText())){
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-											"Cliente eliminado","éxito",
+											"Sucursal eliminada","éxito",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 									rellenarTabla();
 								}
 								else{
 									javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-											"El cliente no existe o ha ocurrido un error","Error",
+											"La Sucursal no existe o ha ocurrido un error","Error",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
 								}
 							}
@@ -173,7 +176,7 @@ public class SucursalUI extends JDialog {
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
-										"Cliente introducido con éxito","Éxito!",
+										"Sucursal introducido con éxito","Éxito!",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
 								textFieldId.setText(String.valueOf(key));
 								rellenarTabla();
@@ -237,7 +240,18 @@ public class SucursalUI extends JDialog {
 			data[i]+="dir: "+sucursales.get(i).direccion;
 			
 		}		
-		
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String sel = list.getSelectedValue();
+				sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
+				Sucursal sucursal = new Sucursal();
+				dbManager.getSucursal(sel.trim(),sucursal);
+				textFieldCp.setText(sucursal.cp);
+				textFieldDireccion.setText(sucursal.direccion);
+				textFieldId.setText(String.valueOf(sucursal.idsucursal));
+			}
+		});
 		scrollPane.setViewportView(list);
 
 	}
