@@ -30,7 +30,8 @@ public class Cuenta {
 		
 		String [] aux = titulares.split(",");
 		for(int i = 0; i<aux.length; i++){
-			tit.add(Integer.valueOf(aux[i].trim()));
+			if(!aux[i].isEmpty())
+				tit.add(Integer.valueOf(aux[i].trim()));
 		}
 		
 		
@@ -41,7 +42,7 @@ public class Cuenta {
 	
 	public Cuenta(){
 		titulares = new ArrayList<>();
-		id = saldo = -99;
+		id = saldo = -1;
 	}
 	
 	public ArrayList<Integer> titulares;

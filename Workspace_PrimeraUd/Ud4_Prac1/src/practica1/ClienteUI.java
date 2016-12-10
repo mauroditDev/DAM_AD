@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+@SuppressWarnings("serial")
 public class ClienteUI extends JDialog {
 
 	private DBmanager dbManager;
@@ -32,6 +33,7 @@ public class ClienteUI extends JDialog {
 	private JTextField textFieldId;
 	private JList<String> list;
 	private JScrollPane scrollPane;
+	private JTextField textFieldNif;
 
 
 	/**
@@ -88,6 +90,15 @@ public class ClienteUI extends JDialog {
 		list = new JList<String>();
 		scrollPane.setViewportView(list);
 		
+		JLabel lblNif = new JLabel("NIF");
+		lblNif.setBounds(208, 142, 70, 15);
+		contentPanel.add(lblNif);
+		
+		textFieldNif = new JTextField();
+		textFieldNif.setColumns(10);
+		textFieldNif.setBounds(208, 169, 159, 19);
+		contentPanel.add(textFieldNif);
+		
 		rellenarTabla();
 		
 		{
@@ -103,7 +114,7 @@ public class ClienteUI extends JDialog {
 								"confirme que quiere modificar a id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
 								Cliente cli = new Cliente(textFieldId.getText(), textFieldNombre.getText(),
-										textFieldF_nac.getText(), textFieldDireccion.getText());
+										textFieldF_nac.getText(), textFieldDireccion.getText(), textFieldNif.getText());
 								if(!dbManager.modCliente(cli)){
 									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 											"El cliente no existe o ha ocurrido"
@@ -119,11 +130,26 @@ public class ClienteUI extends JDialog {
 							}
 						}
 						else if(vacia() && textFieldId.getText().length()>0){
-							Cliente cli = new Cliente();
-							if(dbManager.getClient(textFieldId.getText(),cli)){
+							Cliente cli = dbManager.getClient(textFieldId.getText());
+							if(!cli.f_nac.isEmpty()){
 								textFieldNombre.setText(cli.nombre);
 								textFieldF_nac.setText(cli.f_nac);
 								textFieldDireccion.setText(cli.direccion);
+								textFieldNif.setText(cli.nif);
+							}
+							else{
+								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+										"El cliente no existe o ha ocurrido un error","Error",
+										javax.swing.JOptionPane.PLAIN_MESSAGE);
+							}
+						}
+						if(vacia() && textFieldNif.getText().length()>0){
+							Cliente cli = dbManager.getClientNif(textFieldNif.getText());
+							if(!cli.f_nac.isEmpty()){
+								textFieldNombre.setText(cli.nombre);
+								textFieldF_nac.setText(cli.f_nac);
+								textFieldDireccion.setText(cli.direccion);
+								textFieldId.setText(cli.id.toString());
 							}
 							else{
 								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
@@ -136,7 +162,6 @@ public class ClienteUI extends JDialog {
 									"requerido un Id","advertencia",
 									javax.swing.JOptionPane.PLAIN_MESSAGE);
 						}
-						
 					}
 				});
 				
@@ -177,7 +202,7 @@ public class ClienteUI extends JDialog {
 						int key = 0;
 						if(llena() && textFieldId.getText().length()==0){
 							key = dbManager.addCliente(textFieldNombre.getText(),textFieldF_nac.getText(),
-									textFieldDireccion.getText());
+									textFieldDireccion.getText(),textFieldNif.getText());
 							if(key==-1){
 								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 										"Error en la inserción","Error",
@@ -231,7 +256,8 @@ public class ClienteUI extends JDialog {
 	private boolean llena(){
 		if(textFieldF_nac.getText().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")&&
 				textFieldNombre.getText().length()>0 &&
-				textFieldDireccion.getText().length()>0){
+				textFieldDireccion.getText().length()>0 &&
+				textFieldNif.getText().length()>0){
 			return true;
 		}
 		return false;
@@ -249,21 +275,22 @@ public class ClienteUI extends JDialog {
 			data[i]="id: "+String.valueOf(clientes.get(i).id)+" | ";
 			data[i]+="nom: "+clientes.get(i).nombre+" | ";
 			data[i]+="nac: "+clientes.get(i).f_nac+" | ";
-			data[i]+="dir: "+clientes.get(i).direccion;
-			
+			data[i]+="dir: "+clientes.get(i).direccion+ "| ";
+			data[i]+="nif: "+clientes.get(i).nif;
 		}
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String sel = list.getSelectedValue();
-				sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
-				Cliente cliente = new Cliente();
-				dbManager.getClient(sel.trim(), cliente);
-				textFieldF_nac.setText(cliente.f_nac);
-				textFieldNombre.setText(cliente.nombre);
-				textFieldDireccion.setText(cliente.direccion);
-				textFieldId.setText(sel.trim());
-				
+				if(sel!=null){
+					sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
+					Cliente cliente = dbManager.getClient(sel.trim());
+					textFieldF_nac.setText(cliente.f_nac);
+					textFieldNombre.setText(cliente.nombre);
+					textFieldDireccion.setText(cliente.direccion);
+					textFieldId.setText(sel.trim());
+					textFieldNif.setText(cliente.nif);
+				}
 			}
 				
 		});

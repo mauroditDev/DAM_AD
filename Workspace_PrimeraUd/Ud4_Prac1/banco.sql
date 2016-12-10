@@ -1,22 +1,22 @@
-CREATE DATABASE  banco \\
+CREATE DATABASE IF NOT EXISTS banco;
 
-CREATE TABLE  `banco`.`cliente` (
+CREATE TABLE IF NOT EXISTS `banco`.`cliente` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NULL,
   `f_nac` DATE NULL,
   `direccion` VARCHAR(100) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-\\
+  `nif` VARCHAR(20) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `nif_UNIQUE` (`nif` ASC))
+ENGINE = InnoDB;
 
-CREATE TABLE  `banco`.`cuenta` (
+CREATE TABLE IF NOT EXISTS `banco`.`cuenta` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `saldo` INT(11) NULL DEFAULT '0',
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
-\\
+ENGINE = InnoDB;
 
-CREATE TABLE  `banco`.`titular` (
+CREATE TABLE IF NOT EXISTS `banco`.`titular` (
   `id_cuenta` INT(11) NOT NULL,
   `id_cliente` INT NOT NULL,
   PRIMARY KEY (`id_cuenta`, `id_cliente`),
@@ -32,10 +32,9 @@ CREATE TABLE  `banco`.`titular` (
     REFERENCES `banco`.`cliente` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-\\
+ENGINE = InnoDB;
 
-CREATE TABLE  `banco`.`movimiento` (
+CREATE TABLE IF NOT EXISTS `banco`.`movimiento` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `f_h` DATETIME NOT NULL,
   `importe` INT(11) NOT NULL,
@@ -47,12 +46,11 @@ CREATE TABLE  `banco`.`movimiento` (
     REFERENCES `banco`.`cuenta` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-\\
+ENGINE = InnoDB;
 
-CREATE TABLE  `banco`.`sucursal` (
+CREATE TABLE IF NOT EXISTS `banco`.`sucursal` (
   `idsucursal` INT NOT NULL AUTO_INCREMENT,
   `direccion` VARCHAR(100) NULL,
   `cp` VARCHAR(5) NULL,
   PRIMARY KEY (`idsucursal`))
-ENGINE = InnoDB
+ENGINE = InnoDB;

@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class SucursalUI extends JDialog {
 
 	private DBmanager dbManager;
@@ -109,9 +110,9 @@ public class SucursalUI extends JDialog {
 							}
 						}
 						else if(vacia() && textFieldId.getText().length()>0){
-							Sucursal suc = new Sucursal();
+							Sucursal suc = dbManager.getSucursal(textFieldId.getText());
 							
-							if(dbManager.getSucursal(textFieldId.getText(),suc)){
+							if(suc.idsucursal!=0){
 								textFieldCp.setText(suc.cp);
 								textFieldDireccion.setText(suc.direccion);
 							}
@@ -164,12 +165,12 @@ public class SucursalUI extends JDialog {
 				JButton btnAadir = new JButton("Añadir");
 				btnAadir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int key = 0;
+						
 						if(llena() && textFieldId.getText().length()==0){
 							Sucursal suc = new Sucursal(0,textFieldCp.getText(),
 									textFieldDireccion.getText());
-							key = dbManager.addSucursal(suc);
-							if(key==-1){
+							int key = dbManager.addSucursal(suc);
+							if(key == -1){
 								javax.swing.JOptionPane.showConfirmDialog(SucursalUI.this,
 										"Error en la inserción","Error",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
@@ -245,8 +246,7 @@ public class SucursalUI extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				String sel = list.getSelectedValue();
 				sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
-				Sucursal sucursal = new Sucursal();
-				dbManager.getSucursal(sel.trim(),sucursal);
+				Sucursal sucursal = dbManager.getSucursal(sel.trim());
 				textFieldCp.setText(sucursal.cp);
 				textFieldDireccion.setText(sucursal.direccion);
 				textFieldId.setText(String.valueOf(sucursal.idsucursal));

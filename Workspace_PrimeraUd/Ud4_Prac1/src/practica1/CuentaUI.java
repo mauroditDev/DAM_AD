@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+@SuppressWarnings("serial")
 public class CuentaUI extends JDialog {
 
 	private DBmanager dbManager;
@@ -236,7 +237,6 @@ public class CuentaUI extends JDialog {
 
 		cuentas = dbManager.getCuentas();
 		String[] data = new String[cuentas.size()*4];
-		
 		list = new JList<>(data);
 		
 		for(int i = 0; i<cuentas.size();i++){
@@ -248,23 +248,24 @@ public class CuentaUI extends JDialog {
 			data[i] = data[i].substring(0,data[i].length()-2);
 			data[i]+=" | ";
 			data[i]+="saldo: "+String.valueOf(cuentas.get(i).saldo);
-			
+			System.out.println(data[i]);
 		}
 		
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String sel = list.getSelectedValue();
-				sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
-				Cuenta cuenta = dbManager.getCuenta(sel.trim());
-				String tits = "";
-				for(Integer titular: cuenta.titulares){
-					tits += String.valueOf(titular) + ", ";
+				if(sel!=null){
+					sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
+					Cuenta cuenta = dbManager.getCuenta(sel.trim());
+					String tits = "";
+					for(Integer titular: cuenta.titulares){
+						tits += String.valueOf(titular) + ", ";
+					}
+					textFieldTitular.setText(tits);
+					textFieldSaldo.setText(cuenta.saldo.toString());
+					textFieldId.setText(sel.trim());
 				}
-				textFieldTitular.setText(tits);
-				textFieldSaldo.setText(cuenta.saldo.toString());
-				textFieldId.setText(sel.trim());
-				
 			}
 				
 		});
