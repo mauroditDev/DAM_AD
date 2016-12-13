@@ -597,7 +597,7 @@ public class DBmanager {
 							"no puede eliminar una cuenta con movimientos asociados",
 							"Aviso",javax.swing.JOptionPane.PLAIN_MESSAGE);
 				else
-					javax.swing.JOptionPane.showConfirmDialog(null, "message: "+e.getMessage(),
+				javax.swing.JOptionPane.showConfirmDialog(null, "message: "+e.getMessage(),
 						"Excepción grave, pongase en contacto con un técnico",
 						javax.swing.JOptionPane.PLAIN_MESSAGE);
 			}

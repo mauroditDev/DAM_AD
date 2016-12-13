@@ -89,9 +89,9 @@ public class CuentaUI extends JDialog {
 				okButton = new JButton("Buscar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(textFieldId.getText().matches("[0-9]+")){
+						if(textFieldId.getText().length()>0){
 							Cuenta cue = dbManager.getCuenta(textFieldId.getText());
-							if(cue.id != -1){
+							if(cue.id != -99){
 								textFieldSaldo.setText(String.valueOf(cue.saldo));
 								String texto = "";
 								for(Integer titular: cue.titulares){
@@ -109,8 +109,7 @@ public class CuentaUI extends JDialog {
 						}
 						else{
 							javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
-									"Requerido un Id\n"
-									+ "El Id escrito no es válido","advertencia",
+									"requerido un Id","advertencia",
 									javax.swing.JOptionPane.PLAIN_MESSAGE);
 						}
 						
@@ -198,7 +197,13 @@ public class CuentaUI extends JDialog {
 		
 	}
 	
-	
+	private boolean vacia(){
+		if(textFieldSaldo.getText().length()==0 &&
+			textFieldTitular.getText().length()==0){
+			return true;
+		}
+		return false;
+	}
 	private boolean llena(){
 		if(textFieldSaldo.getText().length()>0 &&
 				textFieldTitular.getText().length()>0){
@@ -223,7 +228,7 @@ public class CuentaUI extends JDialog {
 			data[i] = data[i].substring(0,data[i].length()-2);
 			data[i]+=" | ";
 			data[i]+="saldo: "+String.valueOf(cuentas.get(i).saldo);
-			
+			System.out.println(data[i]);
 		}
 		
 		list.addMouseListener(new MouseAdapter() {

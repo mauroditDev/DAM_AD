@@ -223,7 +223,7 @@ public class CuentaUI extends JDialog {
 			data[i] = data[i].substring(0,data[i].length()-2);
 			data[i]+=" | ";
 			data[i]+="saldo: "+String.valueOf(cuentas.get(i).saldo);
-			
+			System.out.println(data[i]);
 		}
 		
 		list.addMouseListener(new MouseAdapter() {

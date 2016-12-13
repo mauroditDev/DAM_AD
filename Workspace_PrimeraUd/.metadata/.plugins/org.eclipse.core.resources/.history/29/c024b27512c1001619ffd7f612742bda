@@ -82,10 +82,6 @@ public class DBmanager {
 			+ "key constraint fails (`banco`.`titular`, CONSTRAINT "
 			+ "`fk_cuenta_has_cliente_cuenta1` FOREIGN KEY (`id_cuenta`) REFERENCES "
 			+ "`cuenta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)";
-	public final String ERR_DEL_CUE_MOV = "Cannot delete or update a parent "
-			+ "row: a foreign key constraint fails (`banco`.`movimiento`, CONSTRAINT"
-			+ " `fk_movimiento_cuenta` FOREIGN KEY (`id_cuenta`) REFERENCES `cuenta`"
-			+ " (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)";
 	
 	/* ************************************
 	 * FIN DE LA DEFINICION DE LITERALES: *
@@ -591,16 +587,11 @@ public class DBmanager {
 				javax.swing.JOptionPane.showConfirmDialog(null, 
 						"no puede eliminar una cuenta con titulares asociados",
 						"Aviso",javax.swing.JOptionPane.PLAIN_MESSAGE);
-			else{
-				if (e.getMessage().equals(ERR_DEL_CUE_MOV))
-					javax.swing.JOptionPane.showConfirmDialog(null, 
-							"no puede eliminar una cuenta con movimientos asociados",
-							"Aviso",javax.swing.JOptionPane.PLAIN_MESSAGE);
-				else
-					javax.swing.JOptionPane.showConfirmDialog(null, "message: "+e.getMessage(),
+			else
+				javax.swing.JOptionPane.showConfirmDialog(null, "message: "+e.getMessage(),
 						"Excepción grave, pongase en contacto con un técnico",
 						javax.swing.JOptionPane.PLAIN_MESSAGE);
-			}
+			
 			res = false;
 		}
 		
