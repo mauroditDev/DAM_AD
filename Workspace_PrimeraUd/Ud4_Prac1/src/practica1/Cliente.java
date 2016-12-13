@@ -1,8 +1,10 @@
 package practica1;
 
+import java.util.Date;
+
 public class Cliente {
 
-	public Cliente(String id, String nombre, String fnac, String dir, String nif) {
+	public Cliente(String id, String nombre, Date fnac, String dir, String nif) {
 		this.id = Integer.valueOf(id);
 		this.nombre = nombre;
 		this.f_nac = fnac;
@@ -10,7 +12,7 @@ public class Cliente {
 		this.nif = nif;
 	}
 	
-	public Cliente(int id, String nombre, String fnac, String dir, String nif) {
+	public Cliente(int id, String nombre, Date fnac, String dir, String nif) {
 		this.id = id;
 		this.nombre = nombre;
 		this.f_nac = fnac;
@@ -21,13 +23,13 @@ public class Cliente {
 	public Cliente() {
 		this.id = -1;
 		this.nombre = "";
-		this.f_nac = "";
+		this.f_nac = new Date();
 		this.nif = "";
 		direccion = "";
 	}
 	
 	public Integer id;
-	public String f_nac;
+	public Date f_nac;
 	public String nombre;
 	public String direccion;
 	public String nif;

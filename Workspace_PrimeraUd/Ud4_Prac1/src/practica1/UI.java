@@ -72,7 +72,7 @@ public class UI extends JFrame {
 		cuentaSel = new Cuenta();
 		clienteSel = new Cliente();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 745, 416);
+		setBounds(100, 100, 1040, 416);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -248,7 +248,7 @@ public class UI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(371, 307, 159, 25);
+		btnNewButton_1.setBounds(611, 307, 159, 25);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_3 = new JButton("Añadir/Quitar");
@@ -290,25 +290,25 @@ public class UI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_3.setBounds(227, 12, 159, 25);
+		btnNewButton_3.setBounds(363, 17, 159, 25);
 		contentPane.add(btnNewButton_3);
 		
 		scrollPaneClientes = new JScrollPane();
-		scrollPaneClientes.setBounds(12, 54, 371, 229);
+		scrollPaneClientes.setBounds(12, 54, 589, 229);
 		contentPane.add(scrollPaneClientes);
 		
 		listCli = new JList<>();
 		scrollPaneClientes.setViewportView(listCli);
 		
 		scrollPaneTitular = new JScrollPane();
-		scrollPaneTitular.setBounds(428, 54, 295, 229);
+		scrollPaneTitular.setBounds(613, 54, 393, 229);
 		contentPane.add(scrollPaneTitular);
 		
 		listTit = new JList<>();
 		scrollPaneTitular.setViewportView(listTit);
 		
 		JLabel lblCuenta = new JLabel("Cuenta");
-		lblCuenta.setBounds(428, 17, 179, 15);
+		lblCuenta.setBounds(668, 17, 70, 15);
 		contentPane.add(lblCuenta);
 		
 		JLabel lblTitular = new JLabel("Titular");
@@ -316,7 +316,7 @@ public class UI extends JFrame {
 		contentPane.add(lblTitular);
 		
 		label_Cue = new JLabel("");
-		label_Cue.setBounds(482, 17, 125, 15);
+		label_Cue.setBounds(722, 17, 125, 15);
 		contentPane.add(label_Cue);
 		
 		label_Tit = new JLabel("");
@@ -333,23 +333,23 @@ public class UI extends JFrame {
 		contentPane.add(label);
 		
 		textFieldDesde = new JTextField();
-		textFieldDesde.setText(dateFormat.format(new Date()));
-		textFieldDesde.setBounds(617, 295, 114, 19);
+		textFieldDesde.setText("01/01/2000");
+		textFieldDesde.setBounds(892, 296, 114, 19);
 		contentPane.add(textFieldDesde);
 		textFieldDesde.setColumns(10);
 		
 		textFieldHasta = new JTextField();
 		textFieldHasta.setText(dateFormat.format(new Date()));
-		textFieldHasta.setBounds(617, 326, 114, 19);
+		textFieldHasta.setBounds(892, 327, 114, 19);
 		contentPane.add(textFieldHasta);
 		textFieldHasta.setColumns(10);
 		
 		JLabel lblDesde = new JLabel("Desde:");
-		lblDesde.setBounds(537, 299, 70, 15);
+		lblDesde.setBounds(812, 300, 70, 15);
 		contentPane.add(lblDesde);
 		
 		JLabel lblHasta = new JLabel("Hasta:");
-		lblHasta.setBounds(537, 330, 70, 15);
+		lblHasta.setBounds(812, 331, 70, 15);
 		contentPane.add(lblHasta);
 		
 		JButton btnRefrescar = new JButton("Refrescar");
@@ -361,7 +361,7 @@ public class UI extends JFrame {
 				rellenarTablaCli();
 			}
 		});
-		btnRefrescar.setBounds(617, 12, 114, 25);
+		btnRefrescar.setBounds(857, 12, 114, 25);
 		contentPane.add(btnRefrescar);
 		dbManager = new DBmanager();
 		
@@ -414,7 +414,7 @@ public class UI extends JFrame {
 			for(int i = 0; i<clientes.size();i++){
 				data[i]="id: "+String.valueOf(clientes.get(i).id)+" | ";
 				data[i]+="nom: "+clientes.get(i).nombre+" | ";
-				data[i]+="nac: "+clientes.get(i).f_nac+" | ";
+				data[i]+="nac: "+dateFormat.format(clientes.get(i).f_nac)+" | ";
 				data[i]+="dir: "+clientes.get(i).direccion+ "| ";
 				data[i]+="nif: "+clientes.get(i).nif;
 			}

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Date;
 
@@ -177,12 +178,12 @@ public class DBmanager {
 		return res;
 	}
 
-	public int addCliente(String nombre, String fecha, String direccion, String nif) {
+	public int addCliente(String nombre, java.util.Date fecha, String direccion, String nif) {
 		int res = -1;
 		try{
 			PreparedStatement ps = con.prepareStatement(CLI_INS, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, nombre);
-			ps.setString(2, fecha);
+			ps.setDate(2, new Date(fecha.getTime()));
 			ps.setString(3, direccion);
 			ps.setString(4, nif);
 			ps.executeUpdate();
@@ -213,7 +214,7 @@ public class DBmanager {
 			if(rs.next()){
 				cli.id = rs.getInt(CLI_ID);
 				cli.nombre = rs.getString(CLI_N);
-				cli.f_nac = rs.getString(CLI_F);
+				cli.f_nac.setTime(rs.getDate(CLI_F).getTime());
 				cli.direccion = rs.getString(CLI_D);
 				cli.nif = rs.getString(CLI_NIF);
 			}
@@ -235,7 +236,7 @@ public class DBmanager {
 			if(rs.next()){
 				cli.id = rs.getInt(CLI_ID);
 				cli.nombre = rs.getString(CLI_N);
-				cli.f_nac = rs.getString(CLI_F);
+				cli.f_nac.setTime(rs.getDate(CLI_F).getTime());
 				cli.direccion = rs.getString(CLI_D);
 				cli.nif = rs.getString(CLI_NIF);
 			}
@@ -277,7 +278,7 @@ public class DBmanager {
 		try{
 			PreparedStatement ps = con.prepareStatement(CLI_UPD);
 			ps.setString(1, cli.nombre);
-			ps.setString(2, cli.f_nac);
+			ps.setDate(2, new Date(cli.f_nac.getTime()));
 			ps.setString(3, cli.direccion);
 			ps.setString(4, cli.nif);
 			ps.setInt(5, cli.id);
@@ -302,7 +303,7 @@ public class DBmanager {
 				Cliente cli = new Cliente();
 				cli.id = rs.getInt(CLI_ID);
 				cli.nombre = rs.getString(CLI_N);
-				cli.f_nac = rs.getString(CLI_F);
+				cli.f_nac.setTime(rs.getDate(CLI_F).getTime());
 				cli.direccion = rs.getString(CLI_D);
 				cli.nif = rs.getString(CLI_NIF);
 				resultado.add(cli);
@@ -393,6 +394,7 @@ public class DBmanager {
 			
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
+			rs.next();
 			return rs.getInt(1);
 			
 		}catch(Exception e){
@@ -427,7 +429,7 @@ public class DBmanager {
 		try{
 			ResultSet rs =
 			stmnt.executeQuery(
-					"SELECT cu.*, cl.id_cliente FROM cuenta cu JOIN titular cl "
+					"SELECT cu.*, cl.id_cliente FROM cuenta cu LEFT JOIN titular cl "
 					+ "ON cu.id = cl.id_cuenta ORDER BY cu.id DESC"
 					);
 			
@@ -544,7 +546,7 @@ public class DBmanager {
 		try{
 			
 			ResultSet rs = stmnt.executeQuery(
-				"SELECT cu.*, cl.id_cliente FROM cuenta cu JOIN titular cl"
+				"SELECT cu.*, cl.id_cliente FROM cuenta cu LEFT JOIN titular cl"
 				+ " ON cu.id = cl.id_cuenta WHERE cu.id = " + id
 				);
 
@@ -602,8 +604,8 @@ public class DBmanager {
 		try{
 			con.setAutoCommit(false);
 			PreparedStatement ps = con.prepareStatement(MOV_INS);
-			Date date = new Date(System.currentTimeMillis());
-			ps.setDate(1,date);
+			Timestamp date = new Timestamp(System.currentTimeMillis());
+			ps.setTimestamp(1,date);
 			ps.setInt(2, cantidad);
 			ps.setInt(3, cuentaSel.id);
 			
@@ -648,8 +650,8 @@ public class DBmanager {
 				mov.id = rs.getInt(MOV_ID);
 				mov.importe = rs.getInt(MOV_I);
 				mov.cuenta = cuenta;
-				mov.f_h = rs.getDate(MOV_F).getTime();
-				
+				mov.f_h = rs.getTimestamp(MOV_F).getTime();
+				System.out.println(mov.f_h);
 				resultado.add(mov);
 
 			}

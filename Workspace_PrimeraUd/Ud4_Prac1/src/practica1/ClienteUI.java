@@ -14,7 +14,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -24,7 +27,7 @@ public class ClienteUI extends JDialog {
 
 	private DBmanager dbManager;
 	private ArrayList<Cliente> clientes;
-	
+	Date fecha;
 	private final JPanel contentPanel = new JPanel();
 	private JButton okButton;
 	private JTextField textFieldNombre;
@@ -34,15 +37,17 @@ public class ClienteUI extends JDialog {
 	private JList<String> list;
 	private JScrollPane scrollPane;
 	private JTextField textFieldNif;
+	DateFormat dateFormat;
 
 
 	/**
 	 * Create the dialog.
 	 */
 	public ClienteUI(DBmanager dbman) {
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		setTitle("Clientes");
 		dbManager = dbman;
-		setBounds(100, 100, 450, 503);
+		setBounds(100, 100, 496, 503);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -65,6 +70,7 @@ public class ClienteUI extends JDialog {
 		textFieldF_nac.setColumns(10);
 		textFieldF_nac.setBounds(208, 53, 159, 19);
 		contentPanel.add(textFieldF_nac);
+		textFieldF_nac.setText(dateFormat.format(new Date()));
 		
 		JLabel lblDireccion = new JLabel("Dirección");
 		lblDireccion.setBounds(12, 84, 70, 15);
@@ -85,7 +91,7 @@ public class ClienteUI extends JDialog {
 		contentPanel.add(lblId);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 200, 424, 230);
+		scrollPane.setBounds(12, 200, 470, 230);
 		contentPanel.add(scrollPane);
 		list = new JList<String>();
 		scrollPane.setViewportView(list);
@@ -106,61 +112,38 @@ public class ClienteUI extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("OK");
+				okButton = new JButton("Modificar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!vacia() && textFieldId.getText().length()>0 ){
+						if(textFieldId.getText().length()>0 ){
 							if(javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 								"confirme que quiere modificar a id:"+textFieldId.getText(),"advertencia",
 									javax.swing.JOptionPane.YES_OPTION)==0){
-								Cliente cli = new Cliente(textFieldId.getText(), textFieldNombre.getText(),
-										textFieldF_nac.getText(), textFieldDireccion.getText(), textFieldNif.getText());
-								if(!dbManager.modCliente(cli)){
-									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-											"El cliente no existe o ha ocurrido"
-											+ "un error en la modificación","Error",
-											javax.swing.JOptionPane.PLAIN_MESSAGE);
+								try{
+									Cliente cli = new Cliente(textFieldId.getText(), textFieldNombre.getText(),
+										dateFormat.parse(textFieldF_nac.getText()), textFieldDireccion.getText(), textFieldNif.getText());
+									if(!dbManager.modCliente(cli)){
+										javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+												"El cliente no existe o ha ocurrido"
+												+ "un error en la modificación","Error",
+												javax.swing.JOptionPane.PLAIN_MESSAGE);
+									}
+									else{
+										javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+												"Cliente modificado con éxito","Éxito!",
+												javax.swing.JOptionPane.PLAIN_MESSAGE);
+										rellenarTabla();
+									}
+								}catch(Exception e2){
+									e2.printStackTrace();
 								}
-								else{
-									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-											"Cliente modificado con éxito","Éxito!",
-											javax.swing.JOptionPane.PLAIN_MESSAGE);
-									rellenarTabla();
-								}
-							}
-						}
-						else if(vacia() && textFieldId.getText().length()>0){
-							Cliente cli = dbManager.getClient(textFieldId.getText());
-							if(!cli.f_nac.isEmpty()){
-								textFieldNombre.setText(cli.nombre);
-								textFieldF_nac.setText(cli.f_nac);
-								textFieldDireccion.setText(cli.direccion);
-								textFieldNif.setText(cli.nif);
-							}
-							else{
-								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-										"El cliente no existe o ha ocurrido un error","Error",
-										javax.swing.JOptionPane.PLAIN_MESSAGE);
-							}
-						}
-						if(vacia() && textFieldNif.getText().length()>0){
-							Cliente cli = dbManager.getClientNif(textFieldNif.getText());
-							if(!cli.f_nac.isEmpty()){
-								textFieldNombre.setText(cli.nombre);
-								textFieldF_nac.setText(cli.f_nac);
-								textFieldDireccion.setText(cli.direccion);
-								textFieldId.setText(cli.id.toString());
-							}
-							else{
-								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-										"El cliente no existe o ha ocurrido un error","Error",
-										javax.swing.JOptionPane.PLAIN_MESSAGE);
 							}
 						}
 						else{
 							javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-									"requerido un Id","advertencia",
+									"Seleccione un id de cliente para modificar","Error",
 									javax.swing.JOptionPane.PLAIN_MESSAGE);
+							rellenarTabla();
 						}
 					}
 				});
@@ -187,13 +170,51 @@ public class ClienteUI extends JDialog {
 						}
 						else{
 							javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
-									"Datos mal introducidos\n"
-									+ "\tFecha, Dirección y nombre deben estar vacíos\n"
-									+ "\tId debe estar rellenado","Error",
+									"Es necesario un Id de Cliente","Error",
 									javax.swing.JOptionPane.PLAIN_MESSAGE);
 						}
 					}
 				});
+				
+				JButton btnBuscar = new JButton("Buscar");
+				btnBuscar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(textFieldId.getText().isEmpty()&&textFieldNif.getText().isEmpty()){
+							javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+									"La búsqueda es por Nif o por Id","Error",
+									javax.swing.JOptionPane.PLAIN_MESSAGE);
+						}
+						else{
+							if(textFieldId.getText().isEmpty()){
+								Cliente cliente = dbManager.getClientNif(textFieldNif.getText().trim());
+								if(cliente.id != -1){
+									textFieldF_nac.setText(dateFormat.format(cliente.f_nac));
+									textFieldNombre.setText(cliente.nombre);
+									textFieldDireccion.setText(cliente.direccion);
+									textFieldId.setText(cliente.id.toString());
+								}
+								else
+									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+											"El cliente no existe","Error",
+											javax.swing.JOptionPane.PLAIN_MESSAGE);
+							}
+							else{
+								Cliente cliente = dbManager.getClient(textFieldId.getText().trim());
+								if(cliente.id != -1){
+									textFieldF_nac.setText(dateFormat.format(cliente.f_nac));
+									textFieldNombre.setText(cliente.nombre);
+									textFieldDireccion.setText(cliente.direccion);
+									textFieldNif.setText(cliente.nif);
+								}
+								else
+									javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+											"El cliente no existe","Error",
+											javax.swing.JOptionPane.PLAIN_MESSAGE);
+							}
+						}
+					}
+				});
+				buttonPane.add(btnBuscar);
 				buttonPane.add(btnEliminar);
 				
 				JButton btnAadir = new JButton("Añadir");
@@ -201,8 +222,10 @@ public class ClienteUI extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int key = 0;
 						if(llena() && textFieldId.getText().length()==0){
-							key = dbManager.addCliente(textFieldNombre.getText(),textFieldF_nac.getText(),
+							try{key = dbManager.addCliente(textFieldNombre.getText(),
+									dateFormat.parse(textFieldF_nac.getText()),
 									textFieldDireccion.getText(),textFieldNif.getText());
+							}catch(Exception e2){}
 							if(key==-1){
 								javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 										"Error en la inserción","Error",
@@ -219,7 +242,7 @@ public class ClienteUI extends JDialog {
 						else{
 							javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
 									"Datos mal introducidos\n"
-									+ "\tEl formato debe ser: yyyy-mm-dd\n"
+									+ "\tEl formato debe ser: dd/mm/aaaa\n"
 									+ "\tDirección y nombre deben estar rellenados\n"
 									+ "\tId debe estar vacío","Error",
 									javax.swing.JOptionPane.PLAIN_MESSAGE);
@@ -245,20 +268,22 @@ public class ClienteUI extends JDialog {
 		
 	}
 	
-	private boolean vacia(){
-		if(textFieldF_nac.getText().length()==0 &&
-			textFieldNombre.getText().length()==0 &&
-			textFieldDireccion.getText().length()==0){
-			return true;
-		}
-		return false;
-	}
 	private boolean llena(){
-		if(textFieldF_nac.getText().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")&&
-				textFieldNombre.getText().length()>0 &&
+		if(!textFieldF_nac.getText().isEmpty()){
+			try{
+				fecha = dateFormat.parse(textFieldF_nac.getText());
+			}
+			catch(Exception e){
+//				javax.swing.JOptionPane.showConfirmDialog(ClienteUI.this,
+//						"El formato debe ser: dd/mm/aaaa","Error",
+//						javax.swing.JOptionPane.PLAIN_MESSAGE);
+				return false;
+			}
+			if(	textFieldNombre.getText().length()>0 &&
 				textFieldDireccion.getText().length()>0 &&
 				textFieldNif.getText().length()>0){
-			return true;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -274,7 +299,7 @@ public class ClienteUI extends JDialog {
 		for(int i = 0; i<clientes.size();i++){
 			data[i]="id: "+String.valueOf(clientes.get(i).id)+" | ";
 			data[i]+="nom: "+clientes.get(i).nombre+" | ";
-			data[i]+="nac: "+clientes.get(i).f_nac+" | ";
+			data[i]+="nac: "+dateFormat.format(clientes.get(i).f_nac)+" | ";
 			data[i]+="dir: "+clientes.get(i).direccion+ "| ";
 			data[i]+="nif: "+clientes.get(i).nif;
 		}
@@ -285,7 +310,7 @@ public class ClienteUI extends JDialog {
 				if(sel!=null){
 					sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
 					Cliente cliente = dbManager.getClient(sel.trim());
-					textFieldF_nac.setText(cliente.f_nac);
+					textFieldF_nac.setText(dateFormat.format(cliente.f_nac));
 					textFieldNombre.setText(cliente.nombre);
 					textFieldDireccion.setText(cliente.direccion);
 					textFieldId.setText(sel.trim());

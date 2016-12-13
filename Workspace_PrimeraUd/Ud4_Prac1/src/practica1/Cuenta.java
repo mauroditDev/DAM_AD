@@ -14,9 +14,8 @@ public class Cuenta {
 		ArrayList<Integer> tit = new ArrayList<>();
 		
 		String [] aux = titulares.split(",");
-		System.out.println(aux.length);
 		for(int i = 0; i<aux.length; i++){
-			tit.add(Integer.valueOf(aux[i]));
+			tit.add(Integer.valueOf(aux[i].trim()));
 		}
 		
 		
