@@ -42,10 +42,14 @@ public class UI extends JFrame {
 	private JLabel label_Cue;
 	private JScrollPane scrollPaneClientes;
 	private JScrollPane scrollPaneTitular;
-	JFrame ui;
+	private UI ui;
 	private JTextField textFieldCantidad;
 	private JTextField textFieldDesde;
 	private JTextField textFieldHasta;
+	private JButton btnReintegro;
+	private JButton btnIngreso;
+	private JButton btnExtracto;
+	private JButton btnAnadir;
 
 	/**
 	 * Launch the application.
@@ -116,7 +120,7 @@ public class UI extends JFrame {
 		JMenuItem mntmClientes = new JMenuItem("Clientes");
 		mntmClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ClienteUI(dbManager).setVisible(true);
+				new ClienteUI(dbManager, ui).setVisible(true);
 			}
 		});
 		mnMantenimiento.add(mntmClientes);
@@ -124,7 +128,7 @@ public class UI extends JFrame {
 		JMenuItem mntmSucursal = new JMenuItem("Sucursal");
 		mntmSucursal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new SucursalUI(dbManager).setVisible(true);
+				new SucursalUI(dbManager,ui).setVisible(true);
 			}
 		});
 		mnMantenimiento.add(mntmSucursal);
@@ -132,7 +136,7 @@ public class UI extends JFrame {
 		JMenuItem mntmCuenta = new JMenuItem("Cuenta");
 		mntmCuenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new CuentaUI(dbManager).setVisible(true);
+				new CuentaUI(dbManager,ui).setVisible(true);
 			}
 		});
 		mnMantenimiento.add(mntmCuenta);
@@ -141,7 +145,8 @@ public class UI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnReintegro = new JButton("Reintegro");
+		btnReintegro = new JButton("Reintegro");
+		btnReintegro.setEnabled(false);
 		btnReintegro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -169,8 +174,7 @@ public class UI extends JFrame {
 							else{
 								if(dbManager.ingresar(cuentaSel,
 										Integer.valueOf(textFieldCantidad.getText())*-1)){
-									cuentaSel = new Cuenta();
-									rellenarTablaTit();
+									reset();
 								}
 								else
 									JOptionPane.showConfirmDialog(ui, "No pudo completar la operación",
@@ -188,8 +192,9 @@ public class UI extends JFrame {
 		btnReintegro.setBounds(12, 295, 159, 25);
 		contentPane.add(btnReintegro);
 		
-		JButton btnNewButton = new JButton("Ingreso");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnIngreso = new JButton("Ingreso");
+		btnIngreso.setEnabled(false);
+		btnIngreso.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(cuentaSel.id == -1){
 					JOptionPane.showConfirmDialog(ui, "Necesita seleccionar una cuenta","Error",
@@ -204,8 +209,7 @@ public class UI extends JFrame {
 					else{
 						if(dbManager.ingresar(cuentaSel,
 								Integer.valueOf(textFieldCantidad.getText()))){
-							cuentaSel = new Cuenta();
-							rellenarTablaTit();
+							reset();
 						}
 						else
 							JOptionPane.showConfirmDialog(ui, "No pudo completar la operación",
@@ -214,11 +218,12 @@ public class UI extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(12, 332, 159, 25);
-		contentPane.add(btnNewButton);
+		btnIngreso.setBounds(12, 332, 159, 25);
+		contentPane.add(btnIngreso);
 		
-		JButton btnNewButton_1 = new JButton("Extracto");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnExtracto = new JButton("Extracto");
+		btnExtracto.setEnabled(false);
+		btnExtracto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(cuentaSel.id !=-1){
 					
@@ -226,6 +231,7 @@ public class UI extends JFrame {
 						Date desde = dateFormat.parse(textFieldDesde.getText());
 						Date hasta = dateFormat.parse(textFieldHasta.getText());
 						imprimirExtr(dbManager.extracto(cuentaSel,desde.getTime(),hasta.getTime()));
+						reset();
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 						JOptionPane.showConfirmDialog(ui, "Debe seleccionar fechas válidas"
@@ -248,11 +254,12 @@ public class UI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(611, 307, 159, 25);
-		contentPane.add(btnNewButton_1);
+		btnExtracto.setBounds(611, 307, 159, 25);
+		contentPane.add(btnExtracto);
 		
-		JButton btnNewButton_3 = new JButton("Añadir/Quitar");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		btnAnadir = new JButton("Añadir/Quitar");
+		btnAnadir.setEnabled(false);
+		btnAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(clienteSel.id == -1){
 					JOptionPane.showConfirmDialog(ui, "Debe seleccionar un cliente",
@@ -265,8 +272,7 @@ public class UI extends JFrame {
 					}
 					else{
 						if(vincular(clienteSel, cuentaSel)){
-							cuentaSel = new Cuenta();
-							rellenarTablaTit();
+							reset();
 						}
 						else{
 							JOptionPane.showConfirmDialog(ui, "No pudo actualizarse la cuenta",
@@ -290,8 +296,8 @@ public class UI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_3.setBounds(363, 17, 159, 25);
-		contentPane.add(btnNewButton_3);
+		btnAnadir.setBounds(363, 17, 159, 25);
+		contentPane.add(btnAnadir);
 		
 		scrollPaneClientes = new JScrollPane();
 		scrollPaneClientes.setBounds(12, 54, 589, 229);
@@ -355,18 +361,15 @@ public class UI extends JFrame {
 		JButton btnRefrescar = new JButton("Refrescar");
 		btnRefrescar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clienteSel = new Cliente();
-				cuentaSel = new Cuenta();
-				rellenarTablaTit();
-				rellenarTablaCli();
+				reset();
 			}
 		});
 		btnRefrescar.setBounds(857, 12, 114, 25);
 		contentPane.add(btnRefrescar);
 		dbManager = new DBmanager();
 		
-		rellenarTablaTit();
-		rellenarTablaCli();
+	//	rellenarTablaTit();
+	//	rellenarTablaCli();
 	}
 	
 	public void rellenarTablaTit(){
@@ -394,6 +397,12 @@ public class UI extends JFrame {
 					sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
 					cuentaSel = dbManager.getCuenta(sel.trim());
 					label_Cue.setText(cuentaSel.id.toString());
+					btnIngreso.setEnabled(true);
+					btnExtracto.setEnabled(true);
+					if(clienteSel.id != -1){
+						btnReintegro.setEnabled(true);
+						btnAnadir.setEnabled(true);
+					}
 				}
 			}
 				
@@ -426,6 +435,11 @@ public class UI extends JFrame {
 						sel = sel.substring(sel.indexOf(" "),sel.indexOf(" |"));
 						clienteSel = dbManager.getClient(sel.trim());
 						label_Tit.setText(String.valueOf(clienteSel.id));
+						if(cuentaSel.id != -1){
+							btnReintegro.setEnabled(true);
+							btnAnadir.setEnabled(true);
+						}
+							
 					}
 				}
 					
@@ -433,5 +447,18 @@ public class UI extends JFrame {
 			
 			scrollPaneClientes.setViewportView(listCli);
 
+	}
+	
+	public void reset(){
+
+		cuentaSel = new Cuenta();
+		clienteSel = new Cliente();
+		rellenarTablaTit();
+		rellenarTablaCli();
+		btnIngreso.setEnabled(false);
+		btnReintegro.setEnabled(false);
+		btnAnadir.setEnabled(false);
+		btnExtracto.setEnabled(false);
+		
 	}
 }

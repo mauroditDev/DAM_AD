@@ -36,7 +36,9 @@ public class SucursalUI extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public SucursalUI(DBmanager dbman) {
+	public SucursalUI(DBmanager dbman, final UI padre) {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		padre.setEnabled(false);
 		setTitle("Sucursales");
 		dbManager = dbman;
 		setBounds(100, 100, 450, 503);
@@ -79,7 +81,7 @@ public class SucursalUI extends JDialog {
 		
 		scrollPane.setViewportView(list);
 		
-		rellenarTabla();
+		//rellenarTabla();
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -199,9 +201,10 @@ public class SucursalUI extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Salir");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						padre.setEnabled(true);
 						dispose();
 					}
 				});

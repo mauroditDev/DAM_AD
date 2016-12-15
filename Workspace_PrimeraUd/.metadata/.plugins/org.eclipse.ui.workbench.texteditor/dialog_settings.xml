@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="277" key="DIALOG_WIDTH"/>
+		<item value="281" key="DIALOG_WIDTH"/>
 		<item value="172" key="DIALOG_Y_ORIGIN"/>
 		<item value="977" key="DIALOG_X_ORIGIN"/>
-		<item value="374" key="DIALOG_HEIGHT"/>
+		<item value="382" key="DIALOG_HEIGHT"/>
 		<item value="1|Sans|10.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,18 +13,21 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="date" key="selection"/>
+		<item value="Anadir" key="selection"/>
 		<list key="findhistory">
-			<item value="date"/>
-			<item value="titu"/>
-			<item value="fecha"/>
-			<item value="Sucursal"/>
-			<item value="cliente"/>
-			<item value="éxito"/>
-			<item value="exito"/>
-			<item value="NO_OPTION"/>
+			<item value="anadir"/>
+			<item value="rellenarTabla"/>
+			<item value="typed"/>
+			<item value="Pressed"/>
+			<item value="Cancel"/>
+			<item value="dispo"/>
+			<item value="disp"/>
+			<item value="Client"/>
 		</list>
 		<list key="replacehistory">
+			<item value="reset"/>
+			<item value="Released"/>
+			<item value="Typed"/>
 			<item value="Sucursal"/>
 			<item value="Cuenta"/>
 		</list>

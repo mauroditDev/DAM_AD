@@ -32,12 +32,16 @@ public class CuentaUI extends JDialog {
 	private JTextField textFieldId;
 	private JList<String> list;
 	private JScrollPane scrollPane;
+	private JButton btnEliminar;
+	private JButton btnAadir;
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public CuentaUI(DBmanager dbman) {
+	public CuentaUI(DBmanager dbman, final UI padre) {
+		padre.setEnabled(false);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setTitle("Cuentas");
 		dbManager = dbman;
 		setBounds(100, 100, 450, 503);
@@ -117,7 +121,7 @@ public class CuentaUI extends JDialog {
 					}
 				});
 				
-				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(textFieldId.getText().length()>0){
@@ -148,7 +152,7 @@ public class CuentaUI extends JDialog {
 				});
 				buttonPane.add(btnEliminar);
 				
-				JButton btnAadir = new JButton("Añadir");
+				btnAadir = new JButton("Añadir");
 				btnAadir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int key = 0;
@@ -185,9 +189,11 @@ public class CuentaUI extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Salir");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						padre.reset();
+						padre.setEnabled(true);
 						dispose();
 					}
 				});
@@ -249,4 +255,6 @@ public class CuentaUI extends JDialog {
 		scrollPane.setViewportView(list);
 
 	}
+	
+	
 }
