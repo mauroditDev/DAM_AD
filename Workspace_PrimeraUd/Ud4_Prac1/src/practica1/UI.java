@@ -71,6 +71,7 @@ public class UI extends JFrame {
 	 * Create the frame.
 	 */
 	public UI() {
+		setTitle("Operaciones con Cuentas");
 		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		ui = this;
 		cuentaSel = new Cuenta();
@@ -368,8 +369,8 @@ public class UI extends JFrame {
 		contentPane.add(btnRefrescar);
 		dbManager = new DBmanager();
 		
-	//	rellenarTablaTit();
-	//	rellenarTablaCli();
+		rellenarTablaTit();
+		rellenarTablaCli();
 	}
 	
 	public void rellenarTablaTit(){
