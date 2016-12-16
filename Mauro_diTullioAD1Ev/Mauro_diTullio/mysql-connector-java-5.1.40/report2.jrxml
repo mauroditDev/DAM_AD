@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="79b286c2-16a7-4678-8866-4cb8ac9e568b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="inicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * from clientes WHERE codigo >= $P{inicio} AND codigo <=$P{fin};]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nif" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="domicilio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo_postal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="movil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_ventas" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="330" y="15" width="197" height="20" uuid="640f34bc-9682-49b0-8838-09aed5a5168c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="527" y="15" width="40" height="20" uuid="2ad31107-6562-4357-8991-e1bddf03fada"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="5" y="15" width="100" height="20" uuid="6f56c48c-2c68-49ec-9eba-d20c4ce6574c"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="17" width="70" height="20" uuid="9563b753-532a-40d2-bc03-4ae813e15e36"/>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="515" y="17" width="57" height="20" uuid="b14ab93c-14e2-47f0-b9aa-7ff48e5e0c5e"/>
+				<text><![CDATA[Total Ventas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="16" width="148" height="20" uuid="f15ed6c8-27e1-4e37-8dfe-06a29c19256c"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="36" width="569" height="1" uuid="e985da8a-314a-45a8-af63-c70d74b8d1e1"/>
+			</line>
+			<staticText>
+				<reportElement x="224" y="16" width="104" height="20" uuid="59cbed2f-4725-4fa4-8323-cb63cf9bcf0c"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="16" width="119" height="20" uuid="0ed6f8ec-90ef-4cac-b57b-6ec6feba6425"/>
+				<text><![CDATA[Apellidos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="78" y="6" width="142" height="16" uuid="25c5026f-fbce-4ebd-b4d0-9c6438e45014"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellidos}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="6" width="70" height="15" uuid="f83edc91-53b3-47d6-aff1-5ea772b67742"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="6" width="140" height="15" uuid="cc996c42-c00c-444e-a189-52a9ddb93be2"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="6" width="148" height="15" uuid="78dbc717-0607-442f-8027-539ffd592521"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="515" y="6" width="57" height="20" uuid="7a70cf74-5de6-4c22-b942-72f0032bf5cd"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_ventas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

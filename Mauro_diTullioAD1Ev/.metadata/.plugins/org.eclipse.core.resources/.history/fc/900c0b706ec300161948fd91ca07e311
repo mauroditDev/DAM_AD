@@ -1,0 +1,216 @@
+package ejercicio1;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+public class Ejercicio1 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ejercicio1 frame = new Ejercicio1();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ejercicio1() {
+		setTitle("Proceso de lficheros de ventas");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 187);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(12, 69, 424, 19);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnProcesar = new JButton("Procesar");
+		btnProcesar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(textField.getText().isEmpty()){
+					JOptionPane.showInternalConfirmDialog(null,
+							"La ruta está vacía","Error de campo",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+				else{
+					File archivo = new File(textField.getText());
+					if(!archivo.exists()){
+						JOptionPane.showInternalConfirmDialog(null,
+								"La ruta insertada no existe","Error",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+					else{
+						if(archivo.isDirectory()){
+							construirXmls(archivo);
+						}
+						else{
+							JOptionPane.showInternalConfirmDialog(null,
+									"La ruta debe ser un directorio","Error",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+					}
+				}
+			}
+		});
+		btnProcesar.setBounds(170, 111, 117, 25);
+		contentPane.add(btnProcesar);
+		
+		JLabel lblRutaDeLa = new JLabel("Ruta de la carpeta que contiene los ficheros a procesar");
+		lblRutaDeLa.setBounds(12, 42, 424, 15);
+		contentPane.add(lblRutaDeLa);
+	}
+
+	protected void construirXmls(File archivo) {
+		ArrayList<Venta> ventas = new ArrayList<>();
+		File[] lista = archivo.listFiles();
+		for(int i = 0; i< lista.length; i++){
+			if(lista[i].getPath().matches("ventas[0-9]{4}")){
+				try{
+					String estacion = lista[i].getPath().substring(-5, -1);
+					BufferedReader br = new BufferedReader(new FileReader(lista[i]));
+					String linea;
+					linea = br.readLine();
+					while(linea != null){
+						Venta venta = new Venta();
+						
+						String[] aux = linea.split(";");
+						venta.fecha = aux[0];
+						venta.cantidad = Integer.valueOf(aux[1].trim());
+						venta.estacion = Integer.valueOf(estacion);
+						
+						ventas.add(venta);
+						
+						linea = br.readLine();
+					}
+					
+					br.close();
+					
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		try {
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			Element root = doc.createElement("ventasEstaciones");
+			doc.appendChild(root);
+			ArrayList<Venta> ventasEstaciones = ventas;
+			for(int j = 0; j<ventasEstaciones.size(); j++){
+				Venta venta = ventasEstaciones.get(j);
+				int estacion = venta.estacion;
+				int cantidad = venta.cantidad;
+				for(int i = j+1; i<ventasEstaciones.size(); i++){
+					if(ventasEstaciones.get(i).estacion == estacion){
+						cantidad += venta.cantidad;
+						ventasEstaciones.remove(i);
+					}
+				}
+				Element elEstacion = doc.createElement("estacion");
+				elEstacion.setAttribute("codigo", String.valueOf(estacion));
+				Element elVentas = doc.createElement("ventas");
+				elVentas.setTextContent(String.valueOf(cantidad));
+				elEstacion.appendChild(elVentas);
+				root.appendChild(elEstacion);
+			}
+			
+			File archivoEstXml = new File(archivo.getAbsolutePath()+"/TotalEstaciones.xml");
+			
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslst}indentamount", "1");
+			
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(archivoEstXml);
+			transformer.transform(source, result);
+			
+			//Ahora las ventas por Fecha
+			
+
+			Document doc2 = docBuilder.newDocument();
+			Element root2 = doc2.createElement("ventasPorFecha");
+			doc2.appendChild(root2);
+			ArrayList<Venta> ventasFecha = ventas;
+			for(int j = 0; j<ventasFecha.size(); j++){
+				Venta venta = ventasFecha.get(j);
+				String fecha = venta.fecha;
+				int cantidad = venta.cantidad;
+				for(int i = j+1; i<ventasEstaciones.size(); i++){
+					if(ventasFecha.get(i).fecha.equals(fecha)){
+						cantidad += venta.cantidad;
+						ventasFecha.remove(i);
+					}
+				}
+				Element elFecha = doc2.createElement("fecha");
+				elFecha.setAttribute("dia", fecha);
+				Element elVenta = doc2.createElement("ventas");
+				elVenta.setTextContent(String.valueOf(cantidad));
+			}
+			
+			File archivoFeXml = new File(archivo.getAbsolutePath()+"/TotalFechas.xml");
+			
+			TransformerFactory transformerFactory2 = TransformerFactory.newInstance();
+			Transformer transformer2 = transformerFactory2.newTransformer();
+			
+			transformer2.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer2.setOutputProperty("{http://xml.apache.org/xslst}indentamount", "1");
+			
+			DOMSource source2 = new DOMSource(doc2);
+			StreamResult result2 = new StreamResult(archivoFeXml);
+			transformer2.transform(source2, result2);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}

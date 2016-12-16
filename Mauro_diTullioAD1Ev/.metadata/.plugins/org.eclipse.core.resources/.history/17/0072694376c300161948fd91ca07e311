@@ -1,0 +1,106 @@
+package ejercicio3;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+
+import javax.swing.JOptionPane;
+
+public class DBmanager {
+	Connection con;
+	Statement stmnt;
+	public DBmanager(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = DriverManager.getConnection("jdbc:mysql://localhost/",
+					"root","root");
+			stmnt = con.createStatement();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean CreateDb(int ano, int nums){
+		try{
+			stmnt.executeUpdate("CREATE DATABASE navidad"+String.valueOf(ano));
+			con = DriverManager.getConnection("jdbc:mysql://localhost/navidad"
+					+String.valueOf(ano),"root","root");
+			stmnt = con.createStatement();
+			crearNavidad(ano,nums);
+		}catch(Exception e){
+			try{
+			if(JOptionPane.showConfirmDialog(null, "Ya hay para ese año, ¿sobreescribir?", "Aviso",
+					JOptionPane.OK_OPTION)==0){
+				stmnt.executeUpdate("DROP DATABASE navidad"+String.valueOf(ano));
+				stmnt.executeUpdate("CREATE DATABASE navidad"+String.valueOf(ano));
+				con = DriverManager.getConnection("jdbc:mysql://localhost/navidad"
+						+String.valueOf(ano),"root","root");
+				stmnt = con.createStatement();
+				crearNavidad(ano,nums);
+			}
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+		
+	}
+
+	private void crearNavidad(int ano, int nums) {
+		try{
+			stmnt.executeUpdate("CREATE TABLE premiados ("
+					+ "numero INTEGER(6) PRIMARY KEY,"
+					+ "premio INTEGER(6)"
+					+ ")");
+			int[] numeros = new int[nums]; 
+			for(int i = 0; i<nums; i++){
+				Random r = new Random();
+				int numero = 0;
+				boolean sw = true;
+				while(sw){
+					sw = false;
+					numero = r.nextInt(99999);
+					numeros[i] = numero;
+					for(int j = 0; j<i; j++){
+						if( numeros[j] == numero ){
+							sw = true;
+						}
+					}
+				}
+				switch (r.nextInt(3)){
+				case 0:
+					stmnt.executeUpdate("INSERT INTO premiados VALUES ("
+							+  String.valueOf(numero) + ", "
+							+ "1000)");
+					break;
+				case 1:
+					stmnt.executeUpdate("INSERT INTO premiados VALUES ("
+							+  String.valueOf(numero) + ", "
+							+ "25000)");
+					break;
+				case 2:
+					stmnt.executeUpdate("INSERT INTO premiados VALUES ("
+							+  String.valueOf(numero) + ", "
+							+ "50000)");
+					break;
+				case 3:
+					stmnt.executeUpdate("INSERT INTO premiados VALUES ("
+							+  String.valueOf(numero) + ", "
+							+ "100000)");
+					break;
+				}
+			}
+		}
+		catch(Exception e){
+			JOptionPane.showConfirmDialog(null, "No pudo generarse la base de datos\n"
+					+ "Código de error:\n"
+					+ "\t"+e.getMessage(),"Error",JOptionPane.PLAIN_MESSAGE);
+			e.printStackTrace();
+		}
+		
+	}
+
+}
