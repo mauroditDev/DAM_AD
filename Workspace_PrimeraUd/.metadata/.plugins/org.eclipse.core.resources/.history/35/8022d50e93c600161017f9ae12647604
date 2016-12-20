@@ -1,0 +1,11 @@
+package ejercicio_tablas;
+
+public class Main {
+
+	public static void main(String[] args) {
+		DBmanager db = new DBmanager();
+		System.out.println(db.getEsquema("banco"));
+
+	}
+
+}
