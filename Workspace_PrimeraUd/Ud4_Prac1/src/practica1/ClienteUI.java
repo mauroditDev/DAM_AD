@@ -71,6 +71,9 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						btnAnadir.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(false);
@@ -83,10 +86,15 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						okButton.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnAnadir.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(true);
 						btnEliminar.setEnabled(true);
+						btnAnadir.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 				}
 			}
@@ -112,6 +120,9 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						btnAnadir.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(false);
@@ -124,10 +135,15 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						okButton.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnAnadir.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(true);
 						btnEliminar.setEnabled(true);
+						btnAnadir.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 				}
 			}
@@ -147,6 +163,9 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						btnAnadir.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(false);
@@ -159,10 +178,15 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						okButton.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnAnadir.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(true);
 						btnEliminar.setEnabled(true);
+						btnAnadir.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 				}
 			}
@@ -177,6 +201,9 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						btnAnadir.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(false);
@@ -189,10 +216,15 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						okButton.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnAnadir.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(true);
 						btnEliminar.setEnabled(true);
+						btnAnadir.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 				}
 			}
@@ -225,6 +257,9 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						btnAnadir.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(false);
@@ -237,10 +272,15 @@ public class ClienteUI extends JDialog {
 					if(!textFieldNif.getText().isEmpty() && !textFieldDireccion.getText().isEmpty() &&
 							!textFieldNombre.getText().isEmpty()){
 						okButton.setEnabled(true);
+						btnBuscar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnAnadir.setEnabled(false);
 					}
 					else{
 						btnBuscar.setEnabled(true);
 						btnEliminar.setEnabled(true);
+						btnAnadir.setEnabled(false);
+						okButton.setEnabled(false);
 					}
 				}
 			}

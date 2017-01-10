@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,7 +28,7 @@ public class CuentaUI extends JDialog {
 	private ArrayList<Cuenta> cuentas;
 	
 	private final JPanel contentPanel = new JPanel();
-	private JButton okButton;
+	private JButton btnBuscar;
 	private JTextField textFieldTitular;
 	private JTextField textFieldSaldo;
 	private JTextField textFieldId;
@@ -54,7 +56,28 @@ public class CuentaUI extends JDialog {
 		textFieldTitular.setBounds(12, 53, 159, 19);
 		contentPanel.add(textFieldTitular);
 		textFieldTitular.setColumns(10);
-		
+		textFieldTitular.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(textFieldId.getText().isEmpty()){
+					if(!textFieldTitular.getText().isEmpty() && !textFieldSaldo.getText().isEmpty()){
+						btnAadir.setEnabled(true);
+						btnEliminar.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+					else{
+						btnEliminar.setEnabled(false);
+						btnAadir.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+				}
+				else{
+					btnAadir.setEnabled(false);
+					btnEliminar.setEnabled(true);
+					btnBuscar.setEnabled(true);
+				}
+			}
+		});
 		JLabel lblNombre = new JLabel("Titulares");
 		lblNombre.setBounds(12, 26, 70, 15);
 		contentPanel.add(lblNombre);
@@ -67,11 +90,55 @@ public class CuentaUI extends JDialog {
 		textFieldSaldo.setColumns(10);
 		textFieldSaldo.setBounds(208, 53, 159, 19);
 		contentPanel.add(textFieldSaldo);
+		textFieldSaldo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(textFieldId.getText().isEmpty()){
+					if(!textFieldTitular.getText().isEmpty() && !textFieldSaldo.getText().isEmpty()){
+						btnAadir.setEnabled(true);
+						btnEliminar.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+					else{
+						btnEliminar.setEnabled(false);
+						btnAadir.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+				}
+				else{
+					btnAadir.setEnabled(false);
+					btnEliminar.setEnabled(true);
+					btnBuscar.setEnabled(true);
+				}
+			}
+		});
 		
 		textFieldId = new JTextField();
 		textFieldId.setColumns(10);
 		textFieldId.setBounds(22, 113, 159, 19);
 		contentPanel.add(textFieldId);
+		textFieldId.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(textFieldId.getText().isEmpty()){
+					if(!textFieldTitular.getText().isEmpty() && !textFieldSaldo.getText().isEmpty()){
+						btnAadir.setEnabled(true);
+						btnEliminar.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+					else{
+						btnEliminar.setEnabled(false);
+						btnAadir.setEnabled(false);
+						btnBuscar.setEnabled(false);
+					}
+				}
+				else{
+					btnAadir.setEnabled(false);
+					btnEliminar.setEnabled(true);
+					btnBuscar.setEnabled(true);
+				}
+			}
+		});
 		
 		JLabel lblId = new JLabel("Id");
 		lblId.setBounds(22, 86, 70, 15);
@@ -83,15 +150,15 @@ public class CuentaUI extends JDialog {
 		list = new JList<String>();
 		scrollPane.setViewportView(list);
 		
-		rellenarTabla();
+		
 		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("Buscar");
-				okButton.addActionListener(new ActionListener() {
+				btnBuscar = new JButton("Buscar");
+				btnBuscar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(textFieldId.getText().matches("[0-9]+")){
 							Cuenta cue = dbManager.getCuenta(textFieldId.getText());
@@ -132,7 +199,7 @@ public class CuentaUI extends JDialog {
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
 											"Cuenta eliminado","éxito",
 											javax.swing.JOptionPane.PLAIN_MESSAGE);
-									rellenarTabla();
+									reset();
 								}
 								else{
 									javax.swing.JOptionPane.showConfirmDialog(CuentaUI.this,
@@ -170,7 +237,7 @@ public class CuentaUI extends JDialog {
 										"Cuenta introducido con éxito","Éxito!",
 										javax.swing.JOptionPane.PLAIN_MESSAGE);
 								textFieldId.setText(String.valueOf(key));
-								rellenarTabla();
+								reset();
 							}
 						}
 						else{
@@ -184,9 +251,9 @@ public class CuentaUI extends JDialog {
 					}
 				});
 				buttonPane.add(btnAadir);
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnBuscar.setActionCommand("OK");
+				buttonPane.add(btnBuscar);
+				getRootPane().setDefaultButton(btnBuscar);
 			}
 			{
 				JButton cancelButton = new JButton("Salir");
@@ -201,7 +268,7 @@ public class CuentaUI extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+		reset();
 	}
 	
 	
@@ -246,6 +313,7 @@ public class CuentaUI extends JDialog {
 					textFieldTitular.setText(tits);
 					textFieldSaldo.setText(cuenta.saldo.toString());
 					textFieldId.setText(sel.trim());
+					btnEliminar.setEnabled(true);
 				}
 			}
 				
@@ -254,6 +322,16 @@ public class CuentaUI extends JDialog {
 		
 		scrollPane.setViewportView(list);
 
+	}
+	
+	public void reset(){
+		btnAadir.setEnabled(false);
+		btnEliminar.setEnabled(false);
+		btnBuscar.setEnabled(false);
+		textFieldTitular.setText("");
+		textFieldSaldo.setText("");
+		textFieldId.setText("");
+		rellenarTabla();
 	}
 	
 	
