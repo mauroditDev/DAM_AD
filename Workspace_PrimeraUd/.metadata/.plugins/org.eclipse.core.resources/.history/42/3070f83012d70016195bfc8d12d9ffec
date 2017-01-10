@@ -1,0 +1,41 @@
+package accesoCatalogo;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+public class Acceso {
+	boolean importarCsv(String ip, String user, String pass, File archivo){
+		return false;
+		
+	}
+	
+	File exportarCsv(String ip, String user, String pass, String catalogo, String tabla){
+		File archivo = new File("./"+catalogo+"."+tabla+".csv");
+		try {
+			PrintWriter pw = new PrintWriter(archivo);
+			DBmanager db = new DBmanager(ip, user, pass);
+			ArrayList<String> datos = db.getColumnasFromTabCat(catalogo, tabla);
+			int cols = datos.size();
+			for(int i = 0; i<cols;i++){
+				pw.write(datos.get(i));
+				if(i<cols-1) pw.write(";");
+				else pw.write("\n");
+			}
+			
+			datos = db.getValoresFromTabCat(catalogo, tabla, cols);
+			for(int i = 0, j = 0; i< datos.size(); i++, j++){
+				pw.write(datos.get(i));
+				if(j<cols-1) pw.write(";");
+				else{
+					pw.write("\n");
+					j = 0;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return archivo;
+	}
+}
