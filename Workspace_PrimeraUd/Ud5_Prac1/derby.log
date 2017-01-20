@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Jan 17 09:56:30 CET 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-aba4-54b8-0000064afff8 
+on database directory /media/Datos/Datos_Mauro/Acceso_Datos/Workspace_PrimeraUd/Ud5_Prac1/Test with class loader sun.misc.Launcher$AppClassLoader@4ee00c09 
+Loaded from file:/media/Datos/Datos_Mauro/Acceso_Datos/Workspace_PrimeraUd/Ud5_Prac1/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_111-b01
+user.dir=/media/Datos/Datos_Mauro/Acceso_Datos/Workspace_PrimeraUd/Ud5_Prac1
+os.name=Linux
+os.arch=amd64
+os.version=3.16.0-4-amd64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

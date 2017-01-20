@@ -1,0 +1,5 @@
+codigo;descripcion;stock;stock_minimo;precio_compra;precio_venta
+000001;Lampara de pie;100;10;25.00;63.11
+000002;Lampara de mesa;200;20;9.00;14.22
+000003;Reloj despertador;300;30;4.00;9.33
+000004;Lámpara de lava;400;40;16.00;28.44

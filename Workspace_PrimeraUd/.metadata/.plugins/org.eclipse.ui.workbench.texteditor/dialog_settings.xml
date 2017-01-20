@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="281" key="DIALOG_WIDTH"/>
-		<item value="172" key="DIALOG_Y_ORIGIN"/>
+		<item value="328" key="DIALOG_Y_ORIGIN"/>
 		<item value="382" key="DIALOG_HEIGHT"/>
-		<item value="977" key="DIALOG_X_ORIGIN"/>
+		<item value="924" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Sans|10.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="print" key="selection"/>
+		<item value="Password" key="selection"/>
 		<list key="findhistory">
-			<item value="Print"/>
-			<item value="anadir"/>
-			<item value="rellenarTabla"/>
-			<item value="typed"/>
-			<item value="Pressed"/>
-			<item value="Cancel"/>
-			<item value="dispo"/>
-			<item value="disp"/>
+			<item value="password"/>
+			<item value="importarCsv"/>
+			<item value="write"/>
+			<item value="int tipo = 0"/>
+			<item value="conectar"/>
+			<item value="bien"/>
+			<item value="getCa"/>
+			<item value="getC"/>
 		</list>
 		<list key="replacehistory">
 			<item value="reset"/>

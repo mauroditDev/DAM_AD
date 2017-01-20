@@ -3,5 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="/media/Datos/Datos_Mauro/Acceso_Datos/Workspace_PrimeraUd/Ud5_Prac1/derby.jar"/>
+	<classpathentry kind="lib" path="/media/Datos/Datos_Mauro/Acceso_Datos/Workspace_PrimeraUd/Ud5_Prac1/ucanaccess-4.0.0.jar"/>
+	<classpathentry kind="lib" path="commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="hsqldb.jar"/>
+	<classpathentry kind="lib" path="jackcess-2.1.6.jar"/>
+	<classpathentry kind="lib" path="ucanaccess-4.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
