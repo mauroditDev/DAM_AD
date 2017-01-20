@@ -1,5 +1,7 @@
 package ejercicio1;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -18,23 +20,27 @@ public class Ejercicio1 {
 		
 		Profesor profesor=new Profesor(101, "Juan", "Perez", "García");
 		ProfesorAnotaciones profesor2=new ProfesorAnotaciones(102, "Pepe", "Sanchez", "Perez");
+		Seguro seguro1 = new Seguro(100, "nif123", "nombre test", "Sanchez", "Perez", 22, 5, new Date());
 		
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		 
 		session.save(profesor);
 		session.save(profesor2);
+		session.save(seguro1);
 		
 		session.getTransaction().commit();
 		
 		Profesor prof3 = (Profesor)session.get(Profesor.class, 102);
 		ProfesorAnotaciones prof4 = (ProfesorAnotaciones)session.get(ProfesorAnotaciones.class, 101);
+		Seguro seguro2 = (Seguro) session.get(Seguro.class, 100);
 		
 		System.out.println(prof3.getApe1());
-		System.out.println(prof4.getApe1());
-		
+		System.out.println(prof4.getApe2());
+		System.out.println(seguro2.getNif());
 		
 		session.close();
+		sessionFactory.close();
 	}
 
 }
