@@ -1,6 +1,11 @@
 package ejercicio1;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+
+
 
 public class Profesor implements Serializable  {
 
@@ -8,14 +13,18 @@ public class Profesor implements Serializable  {
 	private String nombre;
 	private String ape1;
 	private String ape2;
-	
+	private List<Correo> correos;
+
+
 	public Profesor(){}
 
-	public Profesor(int id, String nombre, String ape1, String ape2) {
+	public Profesor(int id, String nombre, String ape1, String ape2, List correos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.ape1 = ape1;
 		this.ape2 = ape2;
+		this.correos = correos;
+		
 	}
 
 	private int id;
@@ -50,4 +59,13 @@ public class Profesor implements Serializable  {
 	public void setApe2(String ape2) {
 		this.ape2 = ape2;
 	}
+
+	public List<Correo> getCorreos() {
+		return correos;
+	}
+
+	public void setCorreos(List<Correo> correos) {
+		this.correos = correos;
+	}
+	
 }

@@ -11,8 +11,9 @@
      <property name="hibernate.hbm2ddl.auto">create</property>
 
      <mapping resource="ejercicio1/Profesor.hbm.xml"/>
-     <mapping class="ejercicio1.ProfesorAnotaciones"/>
-     <mapping class="ejercicio1.Seguro"/>
+     <mapping resource="ejercicio1/Correo.hbm.xml"/>
+<!--      <mapping class="ejercicio1.ProfesorAnotaciones"/>
+     <mapping class="ejercicio1.Seguro"/> -->
 
    </session-factory>
 </hibernate-configuration>
