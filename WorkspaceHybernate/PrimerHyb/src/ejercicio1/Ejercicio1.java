@@ -2,6 +2,8 @@ package ejercicio1;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,31 +22,35 @@ public class Ejercicio1 {
 		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		
 				
-		Profesor profesor=new Profesor(101, "Juan", "Perez", "García", null);
-//		Seguro seguro1 = new Seguro(100, "nif123", "nombre test", "Sanchez", "Perez", 22, 5, new Date());
-		
-		ArrayList<Correo> correos = new ArrayList<>();
-		correos.add(new Correo(111,"asdf",profesor));
-		correos.add(new Correo(222,"patata",profesor));
-		correos.add(new Correo(333,"wiiiiiiiiii",profesor));
-		profesor.setCorreos(correos);
+		Profesor profesor=new Profesor(101, "Juan", "Perez", "García");
+		Set<Modulo> hs = new HashSet<Modulo>();
+		Modulo m1 = new Modulo(666,"patata");
+		Modulo m2 = new Modulo(777,"tomate");
+		Modulo m3 = new Modulo(888,"coche");
+		Modulo m4 = new Modulo(999,"casa");
+		Modulo m5 = new Modulo(555,"perro");
+		Modulo m6 = new Modulo(333,"uiuiui");
+		hs.add(m1) ;hs.add(m2);hs.add(m3);hs.add(m4 );
+		Set<Modulo> hs2 = new HashSet<Modulo>();
+		hs2.add( m1);hs2.add( m5);hs2.add( m6);
+		Profesor profesor2=new Profesor(202, "Maria", "Lopez", "Asda");
+
+		profesor.setModulos(hs); profesor2.setModulos(hs2);
 		
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		 
+		
+		System.out.println(profesor.getModulos());
+		
 		session.save(profesor);
-//		session.save(profesor2);
-//		session.save(seguro1);
+		session.save(profesor2);
 		
 		session.getTransaction().commit();
+				
+		//Seguro seguro2 = (Seguro) session.get(Seguro.class, 100);
 		
-		Profesor prof3 = (Profesor)session.get(Profesor.class, 102);
-		ProfesorAnotaciones prof4 = (ProfesorAnotaciones)session.get(ProfesorAnotaciones.class, 101);
-		Seguro seguro2 = (Seguro) session.get(Seguro.class, 100);
-		
-		System.out.println(prof3.getApe1());
-		System.out.println(prof4.getApe2());
-		System.out.println(seguro2.getNif());
+
+		//System.out.println(seguro2.getNif());
 		
 		session.close();
 		sessionFactory.close();

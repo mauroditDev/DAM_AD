@@ -7,9 +7,11 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="org.hibernate.annotations.Type"/>
 <fullyQualifiedTypeName name="org.hibernate.mapping.Set"/>
-<fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.persistence.Column"/>
+<fullyQualifiedTypeName name="javax.persistence.Id"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
 </qualifiedTypeNameHistroy>

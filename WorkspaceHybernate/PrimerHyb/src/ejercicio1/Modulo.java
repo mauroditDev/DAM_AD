@@ -4,26 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.*;
+
 
 public class Modulo implements Serializable {
-	private int idModulo;
-	
+    private int idModulo;
 
-	private String nombre;
-	private Set<Profesor> profesores;
-	private Integer patatas;
-	
-
-	public Modulo() {
-		
-	}
-	
-	public Modulo(int idModulo, String nombre, Set profesores, Integer patatas) {
-		this.idModulo = idModulo;
-		this.nombre = nombre;
-		this.profesores = profesores;
-		this.patatas = patatas;
-	}
 	public int getIdModulo() {
 		return idModulo;
 	}
@@ -47,14 +33,18 @@ public class Modulo implements Serializable {
 	public void setProfesores(Set<Profesor> profesores) {
 		this.profesores = profesores;
 	}
-	
 
-	public Integer getPatatas() {
-		return patatas;
-	}
+    private String nombre;
 
-	public void setPatatas(Integer patatas) {
-		this.patatas = patatas;
-	}
-	
+     private Set<Profesor> profesores = new HashSet<>();
+
+     public Modulo() {
+
+     }
+
+     public Modulo(int idModulo, String nombre) {
+         this.idModulo = idModulo;
+         this.nombre = nombre;
+
+     }
 }

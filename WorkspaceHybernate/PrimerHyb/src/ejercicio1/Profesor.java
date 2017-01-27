@@ -1,6 +1,7 @@
 package ejercicio1;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,24 +11,23 @@ import java.util.Set;
 public class Profesor implements Serializable  {
 
 
+	private int id;
 	private String nombre;
 	private String ape1;
 	private String ape2;
-	private List<Correo> correos;
+	private Set<Modulo> modulos = new HashSet<>();
 
 
 	public Profesor(){}
 
-	public Profesor(int id, String nombre, String ape1, String ape2, List correos) {
+	public Profesor(int id, String nombre, String ape1, String ape2) {
 		this.id = id;
 		this.nombre = nombre;
 		this.ape1 = ape1;
 		this.ape2 = ape2;
-		this.correos = correos;
 		
 	}
 
-	private int id;
 	public int getId() {
 		return id;
 	}
@@ -60,12 +60,13 @@ public class Profesor implements Serializable  {
 		this.ape2 = ape2;
 	}
 
-	public List<Correo> getCorreos() {
-		return correos;
+	public Set<Modulo> getModulos() {
+		return modulos;
 	}
 
-	public void setCorreos(List<Correo> correos) {
-		this.correos = correos;
+	public void setModulos(Set<Modulo> modulos) {
+		this.modulos = modulos;
 	}
+
 	
 }
