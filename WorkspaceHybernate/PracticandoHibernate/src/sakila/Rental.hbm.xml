@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-mar-2017 10:05:25 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="sakila.Rental" table="rental" catalog="sakila">
+        <id name="rentalId" type="int">
+            <column name="rental_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="staff" class="sakila.Staff" fetch="select">
+            <column name="staff_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="customer" class="sakila.Customer" fetch="select">
+            <column name="customer_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="inventory" class="sakila.Inventory" fetch="select">
+            <column name="inventory_id" not-null="true" />
+        </many-to-one>
+        <property name="rentalDate" type="timestamp">
+            <column name="rental_date" length="19" not-null="true" />
+        </property>
+        <property name="returnDate" type="timestamp">
+            <column name="return_date" length="19" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="payments" table="payment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="rental_id" />
+            </key>
+            <one-to-many class="sakila.Payment" />
+        </set>
+    </class>
+</hibernate-mapping>

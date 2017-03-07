@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">alumno</property>
+        <property name="hibernate.connection.url">jdbc:mysql://172.26.104.173/sakila</property>
+        <property name="hibernate.connection.username">alumno</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.search.autoregister_listeners">false</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <mapping resource="sakila/Payment.hbm.xml" />
+        <mapping resource="sakila/FilmCategory.hbm.xml" />
+        <mapping resource="sakila/Actor.hbm.xml" />
+        <mapping resource="sakila/SalesByFilmCategory.hbm.xml" />
+        <mapping resource="sakila/Language.hbm.xml" />
+        <mapping resource="sakila/ActorInfo.hbm.xml" />
+        <mapping resource="sakila/FilmList.hbm.xml" />
+        <mapping resource="sakila/Category.hbm.xml" />
+        <mapping resource="sakila/Store.hbm.xml" />
+        <mapping resource="sakila/Rental.hbm.xml" />
+        <mapping resource="sakila/Inventory.hbm.xml" />
+        <mapping resource="sakila/StaffList.hbm.xml" />
+        <mapping resource="sakila/Address.hbm.xml" />
+        <mapping resource="sakila/SalesByStore.hbm.xml" />
+        <mapping resource="sakila/Customer.hbm.xml" />
+        <mapping resource="sakila/City.hbm.xml" />
+        <mapping resource="sakila/Staff.hbm.xml" />
+        <mapping resource="sakila/NicerButSlowerFilmList.hbm.xml" />
+        <mapping resource="sakila/FilmActor.hbm.xml" />
+        <mapping resource="sakila/CustomerList.hbm.xml" />
+        <mapping resource="sakila/Country.hbm.xml" />
+        <mapping resource="sakila/Film.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

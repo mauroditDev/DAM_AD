@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<type-mapping>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"
+			length="100" not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string" length="5"
+			not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="TIMESTAMP" hibernate-type="timestamp"
+			length="19" not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="java.lang.Integer"
+			not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"
+			length="100" not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="DATE" hibernate-type="date" length="10"
+			not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"
+			length="100" not-null="false">
+		</sql-type>
+	</type-mapping>
+	<table-filter match-schema="sakila" match-name=".*"></table-filter>
+	<table-filter match-name="actor" match-catalog="sakila"></table-filter>
+	<table-filter match-name="actor_info" match-catalog="sakila"></table-filter>
+	<table-filter match-name="address" match-catalog="sakila"></table-filter>
+	<table-filter match-name="category" match-catalog="sakila"></table-filter>
+	<table-filter match-name="city" match-catalog="sakila"></table-filter>
+	<table-filter match-name="country" match-catalog="sakila"></table-filter>
+	<table-filter match-name="customer" match-catalog="sakila"></table-filter>
+	<table-filter match-name="customer_list" match-catalog="sakila"></table-filter>
+	<table-filter match-name="film" match-catalog="sakila"></table-filter>
+	<table-filter match-name="film_actor" match-catalog="sakila"></table-filter>
+	<table-filter match-name="film_category" match-catalog="sakila"></table-filter>
+	<table-filter match-name="film_list" match-catalog="sakila"></table-filter>
+	<table-filter match-name="inventory" match-catalog="sakila"></table-filter>
+	<table-filter match-name="language" match-catalog="sakila"></table-filter>
+	<table-filter match-name="nicer_but_slower_film_list"
+		match-catalog="sakila">
+	</table-filter>
+	<table-filter match-name="payment" match-catalog="sakila"></table-filter>
+	<table-filter match-name="rental" match-catalog="sakila"></table-filter>
+	<table-filter match-name="sales_by_film_category"
+		match-catalog="sakila">
+	</table-filter>
+	<table-filter match-name="sales_by_store" match-catalog="sakila"></table-filter>
+	<table-filter match-name="staff" match-catalog="sakila"></table-filter>
+	<table-filter match-name="staff_list" match-catalog="sakila"></table-filter>
+	<table-filter match-name="store" match-catalog="sakila"></table-filter>
+	<table catalog="sakila" name="customer_list"></table>
+	<table catalog="sakila" name="language"></table>
+	<table catalog="sakila" name="nicer_but_slower_film_list"></table>
+	<table catalog="sakila" name="category"></table>
+	<table catalog="sakila" name="sales_by_store"></table>
+	<table catalog="sakila" name="sales_by_film_category"></table>
+	<table catalog="sakila" name="film_category"></table>
+	<table catalog="sakila" name="film_list"></table>
+	<table catalog="sakila" name="actor_info"></table>
+	<table catalog="sakila" name="film"></table>
+	<table catalog="sakila" name="rental"></table>
+	<table catalog="sakila" name="inventory"></table>
+	<table catalog="sakila" name="city"></table>
+	<table catalog="sakila" name="staff_list"></table>
+	<table catalog="sakila" name="store"></table>
+	<table catalog="sakila" name="customer"></table>
+	<table catalog="sakila" name="payment"></table>
+	<table catalog="sakila" name="address"></table>
+	<table catalog="sakila" name="film_actor"></table>
+	<table catalog="sakila" name="actor"></table>
+	<table catalog="sakila" name="country"></table>
+	<table catalog="sakila" name="staff"></table>
+</hibernate-reverse-engineering>
